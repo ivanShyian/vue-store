@@ -1,10 +1,12 @@
 import axios from 'axios'
+import { errorMessage } from '@/utils/error'
 const TOKEN_KEY = 'jwt-token'
-
 export default {
   namespaced: true,
   state() {
-    return {}
+    return {
+      token: localStorage.getItem(TOKEN_KEY)
+    }
   },
   getters: {
     token(state) {
@@ -25,14 +27,17 @@ export default {
     }
   },
   actions: {
-    async login(context, payload) {
+    async login({ commit, dispatch }, payload) {
       try {
-        console.log(process.env.VUE_API_FB_KEY)
-        const url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${key}`
+        const url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.VUE_APP_FB_KEY}`
         const { data } = await axios.post(url, { ...payload, returnSecureToken: true })
-        context.commit('setToken', data.idToken)
+        commit('setToken', data.idToken)
       } catch (e) {
-        console.log(e.message)
+        dispatch('alert/doAlert', {
+          type: 'danger',
+          text: errorMessage(e.response.data.error.message)
+        }, { root: true })
+        throw new Error()
       }
     }
   }

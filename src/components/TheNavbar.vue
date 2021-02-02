@@ -1,7 +1,7 @@
 <template>
   <div class="navbar">
     <h4>Online store</h4>
-    <div class="navbar-menu" v-if="$route.meta.layout === 'main'">
+    <div class="navbar-menu">
       <a href="#">Магазин</a>
       <a href="#">Корзина</a>
     </div>

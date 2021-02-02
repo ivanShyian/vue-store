@@ -1,5 +1,5 @@
 import { useField, useForm } from 'vee-validate'
-import { computed, watch } from 'vue'
+import { computed, watch, ref } from 'vue'
 import * as yup from 'yup'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
@@ -8,6 +8,7 @@ export function useLoginForm() {
   const PASSWORD_LENGTH = 6
   const store = useStore()
   const router = useRouter()
+  const loading = ref(false)
   const { submitCount, isSubmitting, handleSubmit } = useForm()
   const { value: email, handleBlur: emailBlur, errorMessage: emailError } = useField(
     'email',
@@ -27,9 +28,13 @@ export function useLoginForm() {
   })
   const onSubmit = handleSubmit(async (values) => {
     try {
+      loading.value = true
       await store.dispatch('auth/login', values)
-      await router.push('/')
-    } catch (e) {}
+      router.push('/')
+      loading.value = false
+    } catch (e) {
+      loading.value = false
+    }
   })
   return {
     email,
@@ -40,6 +45,7 @@ export function useLoginForm() {
     passwordError,
     isSubmitting,
     isTooManyAttempts,
-    onSubmit
+    onSubmit,
+    loading
   }
 }

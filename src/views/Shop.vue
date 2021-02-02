@@ -1,12 +1,11 @@
 <template>
   <div class="with-nav card">
-    sf
+    Somesthing
   </div>
 </template>
 
 <script>
 export default {
-
 }
 </script>
 
