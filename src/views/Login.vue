@@ -1,8 +1,8 @@
 <template>
-  <the-navbar></the-navbar>
-  <div class="container with-nav">
+  <app-loading v-if="loading"></app-loading>
+  <div class="container with-nav" v-else>
     <form class="card" @submit.prevent="onSubmit">
-      <h3 class="text-center">Login please</h3>
+      <h3 class="text-center">Вход в систему</h3>
       <div class="form-control">
         <label for="email">Email</label>
         <input type="email"
@@ -31,16 +31,27 @@
 </template>
 
 <script>
-import TheNavbar from '@/components/TheNavbar'
 import { useLoginForm } from '@/use/login'
+import { useRoute } from 'vue-router'
+import { useStore } from 'vuex'
+import AppLoading from '@/components/ui/AppLoading'
 
 export default {
+  components: { AppLoading },
   setup() {
+    const route = useRoute()
+    const store = useStore()
+
+    if (route.query.message) {
+      store.dispatch('alert/doAlert', {
+        type: 'warning',
+        text: 'Войдите в систему'
+      })
+    }
     return {
       ...useLoginForm()
     }
-  },
-  components: { TheNavbar }
+  }
 }
 </script>
 

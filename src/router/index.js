@@ -25,10 +25,13 @@ const routes = [
 
 const router = createRouter({
   history: createWebHistory(),
-  routes
+  routes,
+  linkActiveClass: 'active',
+  linkExactActiveClass: 'active'
 })
 router.beforeEach((to, from, next) => {
   const requireAuth = to.meta.auth
+  console.log(store.getters['auth/isAuthenticated'])
   if (requireAuth && store.getters['auth/isAuthenticated']) {
     next()
   } else if (requireAuth && !store.getters['auth/isAuthenticated']) {
