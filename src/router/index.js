@@ -20,6 +20,15 @@ const routes = [
       layout: 'auth',
       auth: false
     }
+  },
+  {
+    path: '/cart',
+    name: 'Cart',
+    component: () => import('../views/Cart'),
+    meta: {
+      layout: 'main',
+      auth: true
+    }
   }
 ]
 
