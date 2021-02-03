@@ -1,4 +1,4 @@
-import { axiosProducts } from '../../axios/request'
+import { axiosProducts } from '@/axios/request'
 
 export default {
   namespaced: true,
@@ -18,7 +18,7 @@ export default {
     }
   },
   actions: {
-    async getCart({ commit }, payload) {
+    async getCart({ commit }) {
       const { data } = await axiosProducts.get('')
       commit('setList', data)
     }
