@@ -1,10 +1,14 @@
 <template>
   <div class="navbar">
     <h4>Online store</h4>
-    <div class="navbar-menu">
-      <a href="#">Магазин</a>
-      <a href="#">Корзина</a>
-    </div>
+    <ul class="navbar-menu">
+      <li>
+        <router-link to="/">Магазин</router-link>
+      </li>
+      <li>
+        <router-link to="/cart">Корзина</router-link>
+      </li>
+    </ul>
   </div>
 </template>
 
