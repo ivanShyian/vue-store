@@ -18,7 +18,4 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.navbar-menu a:first-child {
-  margin-right: 2rem;
-}
 </style>
