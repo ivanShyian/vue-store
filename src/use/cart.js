@@ -1,5 +1,5 @@
 import { useStore } from 'vuex'
-import { computed, onMounted, ref, watch } from 'vue'
+import { computed, onMounted, reactive, ref, watch } from 'vue'
 
 const CART_MODEL = {
   2: 3,
@@ -7,7 +7,7 @@ const CART_MODEL = {
 }
 export function useCart() {
   const store = useStore()
-  const cart = ref(CART_MODEL)
+  const cart = reactive(CART_MODEL)
   const loading = ref(false)
   const amount = ref(null)
   onMounted(async () => {
@@ -18,11 +18,11 @@ export function useCart() {
   const products = computed(() => store.getters['products/products'])
 
   const filtered = computed(() => products.value
-    .filter(el => Object.keys(cart.value)
+    .filter(el => Object.keys(cart)
       .includes(el.id.toString())))
 
   const bought = computed(() => filtered.value.map(el => {
-    el.count = cart.value[el.id.toString()]
+    el.count = cart[el.id.toString()]
     return el
   }))
 
@@ -42,13 +42,13 @@ export function useCart() {
     loading,
     price,
     addProduct: (id) => {
-      cart.value[id] += 1
+      cart[id] += 1
     },
     minusProduct: (id) => {
-      if (cart.value[id] !== 1) {
-        cart.value[id] -= 1
+      if (cart[id] !== 1) {
+        cart[id] -= 1
       } else {
-        delete cart.value[id]
+        delete cart[id]
       }
     }
   }
