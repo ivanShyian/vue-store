@@ -18,7 +18,7 @@ export default {
     }
   },
   actions: {
-    async getCart({ commit }) {
+    async getProducts({ commit }) {
       const { data } = await axiosProducts.get('')
       commit('setList', data)
     }
