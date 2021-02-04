@@ -16,7 +16,6 @@
   </tr>
   </tbody>
 </template>
-
 <script>
 import { useCart } from '@/use/cart'
 export default {

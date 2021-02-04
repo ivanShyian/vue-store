@@ -142,6 +142,15 @@ h3 {
     padding-top: 5rem;
 }
 
+.form-control-clear {
+    position: absolute;
+    right: 6px;
+    top: 6px;
+    font-size: 22px;
+    cursor: pointer;
+    color: #888;
+}
+
 .form-control {
     position: relative;
     margin-bottom: 0.5rem;
@@ -226,15 +235,22 @@ h3 {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0.5rem 0;
+    padding: 0.5rem;
     transition: .22s all;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
 }
 
+.list-item.active {
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+
 .list-item:hover {
     background: #eee;
+    cursor: pointer;
 }
 
 .alert {
@@ -396,11 +412,17 @@ h3 {
 
 .navbar-menu li {
     margin-right: 2rem;
+    display: flex;
+    align-items: center;
 }
 
 .navbar-menu li a {
     color: #2c3e50;
     text-decoration: none;
+}
+
+.navbar-menu li span {
+    margin-left: .5rem;
 }
 
 .navbar-menu li a:hover, .navbar-menu li a.active {
@@ -433,6 +455,11 @@ h3 {
 .badge.warning {
     border-color: #c25205;
     color: #c25205;
+}
+
+.badge.warning.filled {
+    background: #c25205;
+    color: #fff;
 }
 
 .text-white {
@@ -520,4 +547,72 @@ h3 {
 
 .question-title {
     font-weight: bold;
+}
+
+
+.row {
+    display: flex;
+
+}
+
+.product-card {
+    width: 220px;
+    height: 200px;
+    border: 1px solid #ccc;
+    margin-right: 1rem;
+    margin-bottom: 1rem;
+    transition: .22s box-shadow;
+    cursor: pointer;
+}
+
+.product-card:hover {
+    box-shadow: 2px 3px 10px rgba(0, 0, 0, 0.2);;
+}
+
+.product-img {
+    width: 100%;
+    padding: 0 .5rem;
+    display: flex;
+    justify-content: center;
+}
+
+.product-img img {
+    width: 60%;
+    height: auto;
+}
+
+.product-title {
+    text-align: center;
+    margin: 0;
+    margin-bottom: .5rem;
+}
+
+.product-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.product-controls button {
+    margin: 0;
+}
+
+.product-controls.in-card button {
+    margin: 0 1rem;
+}
+.text-right {
+    text-align: right;
+}
+
+.products-filter {
+    padding: 1rem;
+    width: 250px;
+    border-right: 1px solid #ccc;
+}
+
+.products-table {
+    display: flex;
+    flex-wrap: wrap;
+    width: 750px;
+    padding: 1rem;
 }
