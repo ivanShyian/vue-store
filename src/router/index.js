@@ -29,6 +29,15 @@ const routes = [
       layout: 'main',
       auth: true
     }
+  },
+  {
+    path: '/product/:id?',
+    name: 'Product',
+    component: () => import('../views/Product'),
+    meta: {
+      layout: 'main',
+      auth: true
+    }
   }
 ]
 

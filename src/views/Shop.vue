@@ -1,37 +1,17 @@
 <template>
   <div class="card">
-    <div class="products-filter">
-      <div class="form-control">
-        <input type="text" placeholder="Найти товар...">
-        <span class="form-control-clear">&times;</span>
-      </div>
-      <ul class="list">
-        <li class="list-item">Все</li>
-        <li class="list-item">
-          Название категории
-        </li>store.getters['products/products']
-      </ul>
-    </div>
-    <div class="products-table">
-      <div class="product-card"
-           :key="product.id"
-           v-for="product in products">
-        <div class="product-img">
-          <img :src="product.img">
-        </div>
-        <h4 class="product-title">{{ product.title }}</h4>
-        <div class="text-center">
-          <button class="btn">23</button>
-        </div>
-      </div>
-    </div>
+    <product-filter></product-filter>
+    <product-list :products="products"></product-list>
   </div>
 </template>
 
 <script>
 import { useStore } from 'vuex'
 import { computed, onMounted } from 'vue'
+import ProductList from '@/components/product/ProductList'
+import ProductFilter from '@/components/product/ProductFilter'
 export default {
+  components: { ProductFilter, ProductList },
   setup() {
     const store = useStore()
     onMounted(() => {
