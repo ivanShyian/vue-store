@@ -12,7 +12,7 @@ export function useCart() {
   const amount = ref(null)
   onMounted(async () => {
     loading.value = true
-    await store.dispatch('products/getProducts')
+    await store.dispatch('products/loadProducts')
     loading.value = false
   })
   const products = computed(() => store.getters['products/products'])

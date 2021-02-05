@@ -3,13 +3,19 @@
     <h3>{{ product.title }}</h3>
     <img :src="product.img"/>
     <p v-if="category">Категория: <strong>{{ category.title }}</strong></p>
-    <product-price :price="product.price"></product-price>
-    <product-quantity></product-quantity>
+    <product-price :price="product.price"
+                   v-if="!bought"
+                   @click="bought = true"
+    ></product-price>
+    <product-quantity v-else
+                      :count="product.count"
+                      @counter-is-zero="bought = false"
+    ></product-quantity>
   </div>
 </template>
 
 <script>
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
 import ProductPrice from '@/components/ui/ProductPrice'
 import ProductQuantity from '@/components/ui/ProductQuantity'
@@ -23,6 +29,7 @@ export default {
     }
   },
   setup(props) {
+    const bought = ref(false)
     const store = useStore()
     const category = computed(() => store.getters['categories/categories']
       .find(el => el.type === props.product.category))
@@ -30,7 +37,8 @@ export default {
       await store.dispatch('categories/loadCategories')
     })
     return {
-      category
+      category,
+      bought
     }
   },
   components: { ProductQuantity, ProductPrice }
@@ -38,4 +46,7 @@ export default {
 </script>
 
 <style scoped>
+.product-controls {
+  width: 20%;
+}
 </style>
