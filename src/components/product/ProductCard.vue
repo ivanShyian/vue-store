@@ -8,7 +8,10 @@
                    v-if="!bought"
                    @click.stop="bought = true"
     ></product-price>
-    <product-quantity v-else></product-quantity>
+    <product-quantity v-else
+                      :count="product.count"
+                      @counter-is-zero="bought = false"
+    ></product-quantity>
   </div>
 </template>
 
@@ -17,8 +20,14 @@ import ProductPrice from '@/components/ui/ProductPrice'
 import ProductQuantity from '@/components/ui/ProductQuantity'
 import { ref } from 'vue'
 export default {
-  props: ['product'],
-  setup() {
+  props: {
+    product: {
+      type: Object,
+      required: false,
+      default: Object
+    }
+  },
+  setup(props) {
     const bought = ref(false)
     return {
       bought

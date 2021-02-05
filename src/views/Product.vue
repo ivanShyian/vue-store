@@ -18,7 +18,7 @@ export default {
     const store = useStore()
     const route = useRoute()
     onMounted(async () => {
-      await store.dispatch('products/getProducts')
+      await store.dispatch('products/loadProducts')
     })
     return {
       product: computed(() => store.getters['products/products'].find(el => {

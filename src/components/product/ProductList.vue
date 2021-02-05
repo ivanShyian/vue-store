@@ -1,10 +1,10 @@
 <template>
   <div class="products-table">
     <product-card
-      @click="$router.push(`/product/${product.id}`)"
+      v-for="product in products"
       :key="product.id"
       :product="product"
-      v-for="product in products"
+      @click="$router.push(`/product/${product.id}`)"
     ></product-card>
   </div>
 </template>
