@@ -13,7 +13,7 @@
 
 <script>
 import { useStore } from 'vuex'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import { computed, onMounted, ref, watch } from 'vue'
 import ProductList from '@/components/product/ProductList'
 import ProductFilter from '@/components/product/ProductFilter'
@@ -23,20 +23,21 @@ export default {
   setup() {
     const store = useStore()
     const router = useRouter()
+    const route = useRoute()
     const loading = ref(false)
     const search = ref('')
     const category = ref('all')
-
     onMounted(async () => {
       loading.value = true
+      category.value = computed(() => route.query.category || 'all').value
+      search.value = computed(() => route.query.search || '').value
       await store.dispatch('products/loadProducts')
       await store.dispatch('categories/loadCategories')
       loading.value = false
     })
-
     // Мне кажется, что так никто не делает, но ничего лучше я не придумал :DD
     watch([search, category], val => {
-      if (val[0].length && val[1] !== 'all') {
+      if (val[0] !== '' && val[1] !== 'all') {
         router.push({
           path: '/', query: { search: val[0], category: val[1] }
         })
@@ -50,12 +51,19 @@ export default {
         })
       }
     })
-
+    const products = computed(() => store.getters['products/products']
+      .filter(el => el.title.toLowerCase().includes(search.value.toLowerCase()))
+      .filter(item => {
+        return category.value === 'all' ? item : category.value === item.category
+      })
+      .sort((first, second) => {
+        return second.count - first.count
+      }))
     return {
       loading,
       search,
       category,
-      products: computed(() => store.getters['products/products']),
+      products,
       filters: computed(() => store.getters['categories/categories']),
       setCategory: (event) => {
         category.value = event
