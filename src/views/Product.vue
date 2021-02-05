@@ -1,25 +1,32 @@
 <template>
-  <app-page back center title="Свекла">
-    <img src="https://images.grocery.yandex.net/2756334/33a66b51989449f9918122a775885fbc/300x300.png" />
-    <p>Категория: <strong>Название категории</strong></p>
-    <button class="btn">
-      123 руб
-    </button>
-    <div class="product-controls in-card">
-      <button class="btn danger">-</button>
-      <strong>12</strong>
-      <button class="btn primary">+</button>
-    </div>
-  </app-page>
-  <h3 class="text-center text-white">
+  <!--  Предыдущая стр-->
+  <app-product v-if="product"
+               :product="product">
+  </app-product>
+  <h3 class="text-center text-white" v-else>
     Товара не найден.
   </h3>
 </template>
 
 <script>
-import AppPage from '../components/ui/AppPage'
+import { useStore } from 'vuex'
+import { computed, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
+import AppProduct from '@/components/ui/AppProduct'
 export default {
-  components: { AppPage }
+  setup() {
+    const store = useStore()
+    const route = useRoute()
+    onMounted(async () => {
+      await store.dispatch('products/getProducts')
+    })
+    return {
+      product: computed(() => store.getters['products/products'].find(el => {
+        return el.id === route.params.id
+      }))
+    }
+  },
+  components: { AppProduct }
 }
 </script>
 
