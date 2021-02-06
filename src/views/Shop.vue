@@ -66,9 +66,9 @@ export default {
       category,
       products,
       clearQuery: () => {
-        router.replace('/')
         category.value = 'all'
         search.value = ''
+        router.replace('/')
       },
       filters: computed(() => store.getters['categories/categories']),
       setCategory: (event) => {

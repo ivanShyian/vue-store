@@ -5,8 +5,8 @@
     <p v-if="category">Категория: <strong>{{ category.title }}</strong></p>
     <product-price :price="product.price"
                    v-if="!bought"
+                   @buy="bought = true"
                    :count="product.count"
-                   @click="bought = true"
     ></product-price>
     <product-quantity v-else
                       :count="product.count"
