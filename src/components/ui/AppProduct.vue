@@ -1,10 +1,11 @@
 <template>
   <div :title="product.title" class="card center">
     <h3>{{ product.title }}</h3>
-    <img :src="product.img"/>
+    <img :src="product.img" alt=""/>
     <p v-if="category">Категория: <strong>{{ category.title }}</strong></p>
     <product-price :price="product.price"
                    v-if="!bought"
+                   :count="product.count"
                    @click="bought = true"
     ></product-price>
     <product-quantity v-else

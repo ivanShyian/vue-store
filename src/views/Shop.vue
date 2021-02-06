@@ -4,6 +4,7 @@
     <product-filter :filters="filters"
                     :category="category"
                     @set-category="setCategory"
+                    @clear-query="clearQuery"
                     v-model:search="search"
     ></product-filter>
     <product-list :products="products"
@@ -64,6 +65,11 @@ export default {
       search,
       category,
       products,
+      clearQuery: () => {
+        router.replace('/')
+        category.value = 'all'
+        search.value = ''
+      },
       filters: computed(() => store.getters['categories/categories']),
       setCategory: (event) => {
         category.value = event

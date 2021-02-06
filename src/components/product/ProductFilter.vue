@@ -6,6 +6,7 @@
              @input="$emit('update:search', $event.target.value)"
              placeholder="Найти товар...">
       <span class="form-control-clear"
+            @click="$emit('clear-query')"
       >&times;</span>
     </div>
     <ul class="list">
@@ -32,7 +33,8 @@ export default {
       required: false,
       default: null
     },
-    'set-category': String
+    'set-category': String,
+    'clear-query': Function
   },
   props: {
     filters: {
