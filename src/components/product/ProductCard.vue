@@ -1,10 +1,11 @@
 <template>
   <div class="product-card">
     <div class="product-img">
-      <img :src="product.img">
+      <img :src="product.img" alt="">
     </div>
     <h4 class="product-title">{{ product.title }}</h4>
     <product-price :price="product.price"
+                   :count="product.count"
                    v-if="!bought"
                    @click.stop="bought = true"
     ></product-price>
@@ -27,7 +28,7 @@ export default {
       default: Object
     }
   },
-  setup(props) {
+  setup() {
     const bought = ref(false)
     return {
       bought
