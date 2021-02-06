@@ -6,8 +6,8 @@
     <h4 class="product-title">{{ product.title }}</h4>
     <product-price :price="product.price"
                    :count="product.count"
+                   @buy="bought = true"
                    v-if="!bought"
-                   @click.stop="bought = true"
     ></product-price>
     <product-quantity v-else
                       :count="product.count"

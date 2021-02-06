@@ -2,6 +2,7 @@
   <div class="text-center">
     <button class="btn"
             v-if="!notAvailable"
+            @click.stop="$emit('buy')"
     >{{ currency(price) }}
     </button>
     <p v-else>Нет в наличии</p>
@@ -12,6 +13,9 @@
 import { currency } from '@/utils/currency'
 import { computed } from 'vue'
 export default {
+  emits: {
+    buy: Function
+  },
   props: {
     price: {
       type: Number,
