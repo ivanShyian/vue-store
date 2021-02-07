@@ -11,7 +11,7 @@
 <script>
 import { currency } from '@/utils/currency'
 
-import ProductCard from '@/components/product/ProductCard'
+import ProductCard from '@/components/product/ProductListItem'
 export default {
   components: { ProductCard },
   props: {
