@@ -1,4 +1,5 @@
 <template>
+  <to-shop-button></to-shop-button>
   <div :class="['card', 'text-center']">
     <h1>Корзина</h1>
     <app-loading v-if="loading"></app-loading>
@@ -25,12 +26,14 @@
 
 <script>
 import { useCart } from '@/use/cart'
+import ToShopButton from '@/components/ui/ToShopButton'
 import AppLoading from '@/components/ui/AppLoading'
 import CartList from '@/components/cart/CartList'
 
 export default {
   components: {
     CartList,
+    ToShopButton,
     AppLoading
   },
   setup() {

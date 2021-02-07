@@ -1,5 +1,5 @@
 <template>
-  <!--  Предыдущая стр-->
+  <to-shop-button></to-shop-button>
   <app-product v-if="product"
                :product="product">
   </app-product>
@@ -13,6 +13,7 @@ import { useStore } from 'vuex'
 import { computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import AppProduct from '@/components/ui/AppProduct'
+import ToShopButton from '@/components/ui/ToShopButton'
 export default {
   setup() {
     const store = useStore()
@@ -26,7 +27,7 @@ export default {
       }))
     }
   },
-  components: { AppProduct }
+  components: { ToShopButton, AppProduct }
 }
 </script>
 
