@@ -1,5 +1,5 @@
 <template>
-  <the-navbar :admin="false"></the-navbar>
+  <the-navbar admin></the-navbar>
   <div class="container with-nav">
     <router-view></router-view>
   </div>
@@ -14,7 +14,5 @@ export default {
 </script>
 
 <style scoped>
-.container {
-  text-align: center;
-}
+
 </style>

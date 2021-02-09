@@ -5,9 +5,10 @@
 <script>
 import AuthLayout from '@/layouts/AuthLayout'
 import MainLayout from '@/layouts/MainLayout'
+import AdminLayout from '@/layouts/AdminLayout'
+import AppAlert from '@/components/ui/AppAlert'
 import { useRoute } from 'vue-router'
 import { computed } from 'vue'
-import AppAlert from '@/components/ui/AppAlert'
 export default {
   setup() {
     const route = useRoute()
@@ -18,7 +19,8 @@ export default {
   components: {
     AppAlert,
     MainLayout,
-    AuthLayout
+    AuthLayout,
+    AdminLayout
   }
 }
 </script>
