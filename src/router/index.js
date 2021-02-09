@@ -55,6 +55,11 @@ const routes = [
         component: () => import('../views/AdminProducts')
       },
       {
+        path: 'product/:id?',
+        name: 'AdminProduct',
+        component: () => import('../views/AdminProduct')
+      },
+      {
         path: 'categories',
         name: 'AdminCategories',
         component: () => import('../views/AdminCategories')
@@ -72,7 +77,7 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   const requireAuth = to.meta.auth
   if (requireAuth && store.getters['auth/isAuthenticated']) {
-    if (store.getters['auth/userRole'] === 'user' && to.meta.layout === 'admin') {
+    if (!store.getters['auth/isAdmin'] && to.meta.layout === 'admin') {
       next('/auth?message=auth')
       store.commit('auth/logout')
     } else {

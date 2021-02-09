@@ -9,7 +9,7 @@
         <router-link to="/admin/categories">Категории</router-link>
       </li>
       <li>
-        <router-link to="/auth">Выйти</router-link>
+        <router-link to="/">Выйти</router-link>
       </li>
     </ul>
     <ul class="navbar-menu" v-if="!admin">
