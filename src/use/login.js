@@ -30,7 +30,11 @@ export function useLoginForm() {
     try {
       loading.value = true
       await store.dispatch('auth/login', values)
-      router.push('/')
+      if (store.getters['auth/userRole'] === 'admin') {
+        router.push('/admin')
+      } else {
+        router.push('/')
+      }
       loading.value = false
     } catch (e) {
       loading.value = false

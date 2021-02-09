@@ -16,7 +16,7 @@
     </table>
     <hr>
     <div style="text-align: right">
-      <p class="text-right" v-if="amount !== 0"><strong>Всего: {{ amount }} руб.</strong></p>
+      <p class="text-right" v-if="amount"><strong>Всего: {{ amount }} руб.</strong></p>
       <p class="text-right">
         <button class="btn">Оплатить</button>
       </p>
