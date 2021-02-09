@@ -18,8 +18,8 @@
 <script>
 import { computed, onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
-import ProductPrice from '@/components/ui/ProductPrice'
-import ProductQuantity from '@/components/ui/ProductQuantity'
+import ProductPrice from '@/components/product/ProductPrice'
+import ProductQuantity from '@/components/product/ProductQuantity'
 
 export default {
   props: {

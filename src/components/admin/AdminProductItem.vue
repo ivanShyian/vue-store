@@ -16,7 +16,7 @@
 
 <script>
 import { currency } from '@/utils/currency'
-import { CATEGORY_MAP } from '@/utils/category-map'
+import { CATEGORY_MAP } from '@/utils/constants'
 export default {
   props: {
     products: {

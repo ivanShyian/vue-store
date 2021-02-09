@@ -1,5 +1,9 @@
 <template>
-  <to-shop-button></to-shop-button>
+  <div class="breadcrumbs text-white" style="text-align: left">
+    <span @click="$router.push('/')"
+          style="cursor: pointer"
+    >Вернуться к товарам</span>
+  </div>
   <app-product v-if="product"
                :product="product">
   </app-product>
@@ -12,8 +16,7 @@
 import { useStore } from 'vuex'
 import { computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
-import AppProduct from '@/components/ui/AppProduct'
-import ToShopButton from '@/components/ui/ToShopButton'
+import AppProduct from '@/components/product/ProductItem'
 export default {
   setup() {
     const store = useStore()
@@ -27,7 +30,7 @@ export default {
       }))
     }
   },
-  components: { ToShopButton, AppProduct }
+  components: { AppProduct }
 }
 </script>
 
