@@ -6,7 +6,7 @@ export default {
   namespaced: true,
   state() {
     return {
-      role: '',
+      role: localStorage.getItem('USER_ROLE'),
       token: localStorage.getItem(TOKEN_KEY)
     }
   },
@@ -19,6 +19,9 @@ export default {
     },
     userRole(state) {
       return state.role
+    },
+    isAdmin(_, getters) {
+      return getters.userRole === 'admin'
     }
   },
   mutations: {
@@ -26,12 +29,14 @@ export default {
       state.token = token
       localStorage.setItem(TOKEN_KEY, token)
     },
+    setUser(state, role) {
+      state.role = role
+      localStorage.setItem('USER_ROLE', role)
+    },
     logout(state) {
       state.token = null
       localStorage.removeItem(TOKEN_KEY)
-    },
-    setRole(state, role) {
-      state.role = role
+      localStorage.removeItem('USER_ROLE')
     }
   },
   actions: {
@@ -40,7 +45,7 @@ export default {
         const url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.VUE_APP_FB_KEY}`
         const { data } = await axios.post(url, { ...payload, returnSecureToken: true })
         const res = await axiosAuth.get(`/${data.localId}.json?auth=${data.idToken}`)
-        commit('setRole', res.data.role)
+        commit('setUser', res.data.role)
         commit('setToken', data.idToken)
       } catch (e) {
         dispatch('alert/doAlert', {

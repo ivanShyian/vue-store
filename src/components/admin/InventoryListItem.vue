@@ -8,13 +8,15 @@
     <td>{{ currency(product.price) }}</td>
     <td>{{ CATEGORY_MAP[product.category] }}</td>
     <td>{{ product.count }}</td>
-    <td><button class="btn">Открыть</button></td>
+    <td>
+      <button @click="$router.push(`product/${product.id}`)" class="btn">Открыть</button>
+    </td>
   </tr>
 </template>
 
 <script>
 import { currency } from '@/utils/currency'
-
+import { CATEGORY_MAP } from '@/utils/category-map'
 export default {
   props: {
     products: {
@@ -24,14 +26,6 @@ export default {
     }
   },
   setup() {
-    const CATEGORY_MAP = {
-      fruit: 'Фрукты',
-      vegetable: 'Овощи',
-      meat: 'Мясо',
-      fish: 'Рыба',
-      greens: 'Зелень',
-      berries: 'Ягоды'
-    }
     return {
       currency,
       CATEGORY_MAP
