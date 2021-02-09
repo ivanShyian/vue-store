@@ -17,7 +17,7 @@
 import { useRoute } from 'vue-router'
 import { computed, onMounted } from 'vue'
 import { useStore } from 'vuex'
-import { CATEGORY_MAP } from '@/utils/category-map'
+import { CATEGORY_MAP } from '@/utils/constants'
 import { currency } from '@/utils/currency'
 
 export default {

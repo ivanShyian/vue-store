@@ -17,8 +17,8 @@
 </template>
 
 <script>
-import ProductPrice from '@/components/ui/ProductPrice'
-import ProductQuantity from '@/components/ui/ProductQuantity'
+import ProductPrice from '@/components/product/ProductPrice'
+import ProductQuantity from '@/components/product/ProductQuantity'
 import { ref } from 'vue'
 export default {
   props: {

@@ -42,7 +42,7 @@ const routes = [
   {
     path: '/admin',
     name: 'Admin',
-    component: () => import('../views/Admin'),
+    component: () => import('../views/admin/Admin'),
     redirect: '/admin/products',
     meta: {
       layout: 'admin',
@@ -52,17 +52,17 @@ const routes = [
       {
         path: 'products',
         name: 'AdminProducts',
-        component: () => import('../views/AdminProducts')
+        component: () => import('../views/admin/AdminProducts')
       },
       {
         path: 'product/:id?',
         name: 'AdminProduct',
-        component: () => import('../views/AdminProduct')
+        component: () => import('../views/admin/AdminProduct')
       },
       {
         path: 'categories',
         name: 'AdminCategories',
-        component: () => import('../views/AdminCategories')
+        component: () => import('../views/admin/AdminCategories')
       }
     ]
   }
