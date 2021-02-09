@@ -39,15 +39,15 @@ export default {
     // Мне кажется, что так никто не делает, но ничего лучше я не придумал :DD
     watch([search, category], val => {
       if (val[0] !== '' && val[1] !== 'all') {
-        router.push({
+        router.replace({
           path: '/', query: { search: val[0], category: val[1] }
         })
       } else if (val[0].length) {
-        router.push({
+        router.replace({
           path: '/', query: { search: val[0] }
         })
       } else {
-        router.push({
+        router.replace({
           path: '/', query: { category: val[1] }
         })
       }
