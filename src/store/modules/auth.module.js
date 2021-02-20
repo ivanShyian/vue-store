@@ -2,11 +2,12 @@ import axios from 'axios'
 import { errorMessage } from '@/utils/error'
 import { axiosAuth } from '@/axios/request'
 const TOKEN_KEY = 'jwt-token'
+const USER = 'user-role'
 export default {
   namespaced: true,
   state() {
     return {
-      role: localStorage.getItem('USER_ROLE'),
+      role: localStorage.getItem(USER),
       token: localStorage.getItem(TOKEN_KEY)
     }
   },
@@ -31,12 +32,12 @@ export default {
     },
     setUser(state, role) {
       state.role = role
-      localStorage.setItem('USER_ROLE', role)
+      localStorage.setItem(USER, role)
     },
     logout(state) {
       state.token = null
       localStorage.removeItem(TOKEN_KEY)
-      localStorage.removeItem('USER_ROLE')
+      localStorage.removeItem(USER)
     }
   },
   actions: {

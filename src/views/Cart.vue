@@ -7,7 +7,7 @@
   <div :class="['card', 'text-center']">
     <h1>Корзина</h1>
     <app-loading v-if="loading"></app-loading>
-    <h3 class="text-center" v-else-if="!bought && !loading"> В корзине пока ничего нет</h3>
+    <h3 class="text-center" v-else-if="!bought.length && !loading"> В корзине пока ничего нет</h3>
     <table class="table" v-else-if="bought && !loading">
       <thead>
       <tr>
