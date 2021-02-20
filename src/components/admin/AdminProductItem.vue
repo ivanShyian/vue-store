@@ -1,5 +1,5 @@
 <template>
-  <tr class="inventory-table__list"
+  <tr class="inventory-table__item"
       v-for="(product, idx) in products"
       :key="product.id">
     <td>{{ idx + 1 }}</td>
@@ -35,7 +35,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.inventory-table__list {
+.inventory-table__item {
   display: flex;
   align-items: center;
   border-top: 1px solid rgba(0, 0, 0, .1);

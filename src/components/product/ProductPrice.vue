@@ -18,11 +18,11 @@ export default {
   },
   props: {
     price: {
-      type: Number,
+      type: [Number, String],
       required: true
     },
     count: {
-      type: Number,
+      type: [Number, String],
       required: false,
       default: Number
     }
