@@ -36,7 +36,7 @@ export default {
       await store.dispatch('categories/loadCategories')
       loading.value = false
     })
-    // Мне кажется, что так никто не делает, но ничего лучше я не придумал :DD
+
     watch([search, category], val => {
       if (val[0] !== '' && val[1] !== 'all') {
         router.replace({
