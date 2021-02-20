@@ -1,11 +1,8 @@
 <template>
   <app-loading v-if="loading"></app-loading>
   <div class="card" v-else>
-    <product-filter :filters="filters"
-                    :category="category"
-                    @set-category="setCategory"
-                    @clear-query="clearQuery"
-                    v-model:search="search"
+    <product-filter :categories="categories"
+                    v-model="filter"
     ></product-filter>
     <product-list :products="products"
     ></product-list>
@@ -14,66 +11,39 @@
 
 <script>
 import { useStore } from 'vuex'
-import { useRouter, useRoute } from 'vue-router'
-import { computed, onMounted, ref, watch } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import ProductList from '@/components/product/ProductList'
 import ProductFilter from '@/components/product/ProductFilter'
 import AppLoading from '@/components/ui/AppLoading'
+import { useRoute } from 'vue-router'
 export default {
   components: { AppLoading, ProductFilter, ProductList },
   setup() {
     const store = useStore()
-    const router = useRouter()
     const route = useRoute()
     const loading = ref(false)
-    const search = ref('')
-    const category = ref('all')
+    const filter = ref({ search: '', category: '' })
+
     onMounted(async () => {
       loading.value = true
-      category.value = computed(() => route.query.category || 'all').value
-      search.value = computed(() => route.query.search || '').value
+      filter.value = { ...filter.value, ...route.query }
       await store.dispatch('products/loadProducts')
       await store.dispatch('categories/loadCategories')
       loading.value = false
     })
-
-    watch([search, category], val => {
-      if (val[0] !== '' && val[1] !== 'all') {
-        router.replace({
-          path: '/', query: { search: val[0], category: val[1] }
-        })
-      } else if (val[0].length) {
-        router.replace({
-          path: '/', query: { search: val[0] }
-        })
-      } else {
-        router.replace({
-          path: '/', query: { category: val[1] }
-        })
-      }
-    })
     const products = computed(() => store.getters['products/products']
-      .filter(el => el.title.toLowerCase().includes(search.value.toLowerCase()))
+      .filter(el => el.title.toLowerCase().includes(filter.value.search.toLowerCase()))
       .filter(item => {
-        return category.value === 'all' ? item : category.value === item.category
+        return filter.value.category === '' ? item : filter.value.category === item.category
       })
       .sort((first, second) => {
         return second.count - first.count
       }))
     return {
+      filter,
       loading,
-      search,
-      category,
       products,
-      clearQuery: () => {
-        category.value = 'all'
-        search.value = ''
-        router.replace('/')
-      },
-      filters: computed(() => store.getters['categories/categories']),
-      setCategory: (event) => {
-        category.value = event
-      }
+      categories: computed(() => store.getters['categories/categories'])
     }
   }
 }
