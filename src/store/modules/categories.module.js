@@ -18,6 +18,9 @@ export default {
     },
     addNewCategory(state, category) {
       state.categories.push(category)
+    },
+    delCategory(state, del) {
+      state.categories = state.categories.filter(item => item !== del)
     }
   },
   actions: {
@@ -33,6 +36,11 @@ export default {
       commit('addNewCategory', category)
       const { data } = await axiosCategories.post('', category)
       console.log(data)
+    },
+    async deleteCategory({ getters, commit }, idx) {
+      const toDelete = getters.categories.find(cat => cat.id === idx)
+      commit('delCategory', toDelete)
+      await axiosCategories.delete(`/${toDelete.id}`)
     }
   }
 }

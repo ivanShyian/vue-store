@@ -3,6 +3,7 @@
     <tr class="categories-table__headers">
       <th>#</th>
       <th>Название</th>
+      <th>Тип</th>
       <th>Действие</th>
     </tr>
     <admin-category-item :categories="categories"></admin-category-item>
