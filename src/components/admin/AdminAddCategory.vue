@@ -6,7 +6,7 @@
       <input id="categoryTitle" type="text" v-model="newCategory.title">
     </div>
     <div class="form-control">
-      <label for="categoryName">Код</label>
+      <label for="categoryName">Тип</label>
       <input id="categoryName" type="text" v-model="newCategory.type">
     </div>
     <div class="bottom-btns">

@@ -10,6 +10,9 @@ export default {
   getters: {
     products(state) {
       return state.productList
+    },
+    product: (state) => (idx) => {
+      return state.productList.find(el => el.id === idx)
     }
   },
   mutations: {
@@ -18,6 +21,14 @@ export default {
     },
     addNewProduct(state, newProduct) {
       state.productList.unshift(newProduct)
+    },
+    updateList: function (state, product) {
+      state.productList = state.productList.map(el => {
+        if (el.id === product.id) {
+          el = product
+        }
+        return el
+      })
     }
   },
   actions: {
@@ -31,8 +42,11 @@ export default {
         id: (getters.products.length + 1).toString()
       }
       commit('addNewProduct', product)
-      const { data } = await axiosProducts.post('', product)
-      console.log(data)
+      await axiosProducts.post('', product)
+    },
+    async updateProduct({ commit, state }, product) {
+      commit('updateList', product)
+      await axiosProducts.put(`/${product.id}`, product)
     }
   }
 }
