@@ -57,14 +57,6 @@
       "img": "https://images.grocery.yandex.net/2756334/cbb08819de08460a9131a86c627bed92/300x300.png"
     },
     {
-      "id": "9",
-      "count": 14,
-      "title": "Говядина",
-      "category": "meat",
-      "price": 519,
-      "img": "https://images.grocery.yandex.net/2791769/01fa0c414a1d406da8db8f9a103f752d/300x300.png"
-    },
-    {
       "id": "10",
       "count": 17,
       "title": "Свинина",
@@ -130,21 +122,6 @@
     }
   ],
   "categories": [
-    {
-      "type": "fruit",
-      "title": "Фрукты",
-      "id": "1"
-    },
-    {
-      "type": "vegetable",
-      "title": "Овощи",
-      "id": "2"
-    },
-    {
-      "type": "meat",
-      "title": "Мясо",
-      "id": "3"
-    },
     {
       "type": "fish",
       "title": "Рыба",
