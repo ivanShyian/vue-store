@@ -1,18 +1,10 @@
 {
   "products": [
     {
-      "id": "1",
-      "count": 13,
-      "title": "Яблоко",
-      "category": "fruit",
-      "price": 99,
-      "img": "https://images.grocery.yandex.net/2783132/a14b43cfbbac4898b5a89fd1e52c0029/300x300.png"
-    },
-    {
       "id": "2",
       "count": 15,
       "title": "Груша",
-      "category": "fish",
+      "category": "fruit",
       "price": 159,
       "img": "https://images.grocery.yandex.net/2805921/631c3a283a994a80820c216ec51f139d/300x300.png"
     },
@@ -135,78 +127,6 @@
       "category": "greens",
       "price": 169,
       "img": "https://images.grocery.yandex.net/2756334/09072b2d38ff4b9391f89a2b37a83053/300x300.png"
-    },
-    {
-      "id": "18",
-      "count": 13,
-      "title": "Шпинат",
-      "category": "greens",
-      "price": 69,
-      "img": "https://images.grocery.yandex.net/2783132/1e72718cfd11452a8ed4ed04aee8c033/300x300.png"
-    },
-    {
-      "id": "19",
-      "count": 13,
-      "title": "Петрушка",
-      "category": "greens",
-      "price": 39,
-      "img": "https://images.grocery.yandex.net/2756334/6f87c8ecea5b4fb98601b901cbcf0b6f/300x300.png"
-    },
-    {
-      "id": "20",
-      "count": 14,
-      "title": "Укроп",
-      "category": "greens",
-      "price": 35,
-      "img": "https://images.grocery.yandex.net/2805921/a00ffda9ddca4defa055fd4e6719f4c7/300x300.png"
-    },
-    {
-      "id": "21",
-      "count": 11,
-      "title": "Мята",
-      "category": "greens",
-      "price": 99,
-      "img": "https://images.grocery.yandex.net/2998515/dc4c4582962e48589147b830c30cebe8/300x300.png"
-    },
-    {
-      "id": "22",
-      "count": 15,
-      "title": "Кинза",
-      "category": "greens",
-      "price": 55,
-      "img": "https://images.grocery.yandex.net/2888787/0fd625d240034c8282faff2b4ea677e3/300x300.png"
-    },
-    {
-      "id": "23",
-      "count": 10,
-      "title": "Клубника",
-      "category": "berries",
-      "price": 299,
-      "img": "https://images.grocery.yandex.net/2805921/af2033d4ef3b4645abd19cd21e408695/300x300.png"
-    },
-    {
-      "id": "24",
-      "count": 10,
-      "title": "Голубика",
-      "category": "berries",
-      "price": 249,
-      "img": "https://images.grocery.yandex.net/2756334/569d8814c1e548b0b4945e7bc4cd912a/300x300.png"
-    },
-    {
-      "id": "25",
-      "count": 15,
-      "title": "Виноград",
-      "category": "berries",
-      "price": 139,
-      "img": "https://images.grocery.yandex.net/2783132/4e13bf22837b45b59fd4b3e611d5fedf/300x300.png"
-    },
-    {
-      "title": "Ivan",
-      "img": "https://avatars.githubusercontent.com/u/74782678?s=460&u=d7b57299c7c1020980a130a28a3ae6ca9cdc96f1&v=4",
-      "count": "1",
-      "price": "222223333",
-      "category": "fruit",
-      "id": "26"
     }
   ],
   "categories": [

@@ -29,6 +29,9 @@ export default {
         }
         return el
       })
+    },
+    deleteItem(state, idx) {
+      state.productList = state.productList.map(item => item.id !== idx)
     }
   },
   actions: {
@@ -47,6 +50,10 @@ export default {
     async updateProduct({ commit, state }, product) {
       commit('updateList', product)
       await axiosProducts.put(`/${product.id}`, product)
+    },
+    async deleteProduct({ commit }, idx) {
+      commit('deleteItem', idx)
+      await axiosProducts.delete(`/${idx}`)
     }
   }
 }
