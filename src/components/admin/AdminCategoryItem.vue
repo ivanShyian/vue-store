@@ -1,16 +1,25 @@
 <template>
   <tr class="categories-table__item"
-    v-for="category in categories" :key="category.id">
-    <td>{{ category.id }}</td>
+    v-for="(category, idx) in categories" :key="category.id">
+    <td>{{ idx + 1 }}</td>
     <td>{{ category.title }}</td>
     <td>{{ category.type }}</td>
     <td><button class="btn danger" @click="deleteCategory(category.id)">Удалить</button></td>
   </tr>
+  <teleport to="body">
+    <app-confirm title="Удалить категорию?"
+                 v-if="confirm"
+                 @confirm="submit"
+                 @denied="confirm = false"
+    ></app-confirm>
+  </teleport>
 </template>
 
 <script>
 import { useStore } from 'vuex'
-
+import { useConfirm } from '@/use/confirm'
+import { ref, watch } from 'vue'
+import AppConfirm from '@/components/ui/AppConfirm'
 export default {
   props: {
     categories: {
@@ -20,13 +29,25 @@ export default {
   },
   setup() {
     const store = useStore()
+    const currentCategory = ref(null)
+    const { confirm, flag, submit } = useConfirm(true)
     const deleteCategory = async (idx) => {
-      await store.dispatch('categories/deleteCategory', idx)
+      currentCategory.value = idx
+      confirm.value = true
     }
+    watch(flag, async (response) => {
+      if (response) {
+        await store.dispatch('categories/deleteCategory', currentCategory.value)
+      }
+    })
     return {
-      deleteCategory
+      deleteCategory,
+      confirm,
+      flag,
+      submit
     }
-  }
+  },
+  components: { AppConfirm }
 }
 </script>
 
