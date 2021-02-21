@@ -1,4 +1,5 @@
 <template>
+  <div class="loader-container">
     <div class="loadingio-spinner-pulse-ein44ezajl">
       <div class="ldio-xkloo60fc2">
         <div></div>
@@ -6,6 +7,7 @@
         <div></div>
       </div>
     </div>
+  </div>
 </template>
 
 <script>
@@ -87,11 +89,14 @@ export default {}
 .loadingio-spinner-pulse-ein44ezajl {
   width: 200px;
   height: 200px;
-  display: inline-block;
+  display: block;
   overflow: hidden;
   background: none;
+  margin: 0 auto;
 }
-
+.loader-container {
+  width: 100%;
+}
 .ldio-xkloo60fc2 {
   width: 100%;
   height: 100%;
