@@ -3,6 +3,7 @@ import auth from './modules/auth.module'
 import alert from './modules/alert.module'
 import products from './modules/products.module'
 import categories from './modules/categories.module'
+import cart from './modules/cart.module'
 
 const plugins = []
 if (process.env.NODE_ENV === 'development') {
@@ -22,6 +23,7 @@ export default createStore({
     auth,
     alert,
     products,
-    categories
+    categories,
+    cart
   }
 })
