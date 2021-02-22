@@ -60,6 +60,7 @@ export default {
         query.category = cv
       }
       router.replace({ query })
+      console.log(query)
       context.emit('update:modelValue', { search: sv, category: cv })
     })
     const setCategory = (type) => {

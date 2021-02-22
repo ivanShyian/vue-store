@@ -1,19 +1,14 @@
 import axios from 'axios'
 
-const axiosCategories = axios.create({
-  baseURL: `${process.env.VUE_APP_DB_BASE}/categories`
-})
-
-const axiosProducts = axios.create({
-  baseURL: `${process.env.VUE_APP_DB_BASE}/products`
+const axiosDatabase = axios.create({
+  baseURL: `${process.env.VUE_APP_DB_BASE}`
 })
 
 const axiosAuth = axios.create({
-  baseURL: `${process.env.VUE_APP_FB_DATA}/users`
+  baseURL: `${process.env.VUE_APP_DB_BASE}/users`
 })
 
 export {
-  axiosCategories,
-  axiosProducts,
+  axiosDatabase,
   axiosAuth
 }

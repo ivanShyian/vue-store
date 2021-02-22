@@ -1,4 +1,6 @@
-import { axiosCategories } from '@/axios/request'
+import { axiosDatabase } from '@/axios/request'
+import { parseDatabase } from '@/utils/parser'
+import store from '../index'
 
 export default {
   namespaced: true,
@@ -25,22 +27,17 @@ export default {
   },
   actions: {
     async loadCategories({ commit }) {
-      const { data } = await axiosCategories.get('')
-      commit('setCategories', data)
+      const { data } = await axiosDatabase.get(`/categories.json?auth=${store.getters['auth/token']}`)
+      commit('setCategories', parseDatabase(data))
     },
     async addCategory({ getters, commit }, category) {
-      category = {
-        ...category,
-        id: (getters.categories.length + 1).toString()
-      }
-      commit('addNewCategory', category)
-      const { data } = await axiosCategories.post('', category)
-      console.log(data)
+      const { data } = await axiosDatabase.post(`/categories.json?auth=${store.getters['auth/token']}`, category)
+      commit('addNewCategory', { ...category, id: data.name })
     },
     async deleteCategory({ getters, commit }, idx) {
       const toDelete = getters.categories.find(cat => cat.id === idx)
       commit('delCategory', toDelete)
-      await axiosCategories.delete(`/${toDelete.id}`)
+      await axiosDatabase.delete(`/categories/${toDelete.id}.json?auth=${store.getters['auth/token']}`)
     }
   }
 }
