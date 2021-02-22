@@ -14,7 +14,8 @@ import { currency } from '@/utils/currency'
 import { computed } from 'vue'
 export default {
   emits: {
-    buy: Function
+    buy: Function,
+    required: false
   },
   props: {
     price: {

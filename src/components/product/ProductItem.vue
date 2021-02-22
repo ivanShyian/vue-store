@@ -5,7 +5,7 @@
     <p v-if="category">Категория: <strong>{{ category.title }}</strong></p>
     <product-price :price="product.price"
                    v-if="!bought"
-                   @buy="bought = true"
+                   @buy="buy(1)"
                    :count="product.count"
     ></product-price>
     <product-quantity v-else
@@ -20,6 +20,7 @@ import { computed, onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
 import ProductPrice from '@/components/product/ProductPrice'
 import ProductQuantity from '@/components/product/ProductQuantity'
+import { addToCart } from '@/utils/cart'
 
 export default {
   props: {
@@ -37,9 +38,14 @@ export default {
     onMounted(async () => {
       await store.dispatch('categories/loadCategories')
     })
+    const buy = (c) => {
+      bought.value = true
+      store.commit('cart/setCart', addToCart(props.product, c))
+    }
     return {
       category,
-      bought
+      bought,
+      buy
     }
   },
   components: { ProductQuantity, ProductPrice }
