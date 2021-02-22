@@ -22,6 +22,7 @@
 import { computed, onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
 import { usePagination } from '@/use/pagination'
+import { useRoute } from 'vue-router'
 import AdminProductsTable from '@/components/admin/AdminProductsTable'
 import AppModal from '@/components/ui/AppModal'
 import AppPagination from '@/components/ui/AppPagination'
@@ -31,7 +32,11 @@ export default {
   setup() {
     const loading = ref(false)
     const modal = ref(false)
+    const page = computed(() => route.query.page)
+
     const store = useStore()
+    const route = useRoute()
+
     const products = computed(() => store.getters['products/products'])
     onMounted(async () => {
       loading.value = true
@@ -42,7 +47,7 @@ export default {
       loading,
       modal,
       products,
-      ...usePagination(products)
+      ...usePagination(products, page)
     }
   },
   components: {

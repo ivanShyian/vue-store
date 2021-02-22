@@ -63,6 +63,11 @@ const routes = [
         path: 'categories',
         name: 'AdminCategories',
         component: () => import('../views/admin/AdminCategories')
+      },
+      {
+        path: 'playground',
+        name: 'AdminPlayground',
+        component: () => import('../views/admin/AdminPlayground')
       }
     ]
   }

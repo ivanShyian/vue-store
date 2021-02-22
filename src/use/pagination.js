@@ -1,10 +1,16 @@
 import { computed, ref, watch } from 'vue'
+import { useRouter } from 'vue-router'
 
-export function usePagination(array) {
-  const page = ref(0)
-  const count = ref(5)
+export function usePagination(array, currentPage) {
+  const router = useRouter()
+
+  const page = ref(+currentPage.value || 1)
+  const count = ref(4)
   const result = ref([])
-  const current = computed(() => result.value[page.value])
+  const current = computed(() => result.value[page.value - 1])
+
+  watch(page, query => router.replace({ query: { page: query } }))
+
   watch(array, updated => {
     let newArray = []
     result.value = array.value.reduce((acc, item, idx, arr) => {

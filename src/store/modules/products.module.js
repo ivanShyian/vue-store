@@ -1,4 +1,6 @@
-import { axiosProducts } from '@/axios/request'
+import { axiosDatabase } from '@/axios/request'
+import { parseDatabase } from '@/utils/parser'
+import store from '../index'
 
 export default {
   namespaced: true,
@@ -36,24 +38,20 @@ export default {
   },
   actions: {
     async loadProducts({ commit }) {
-      const { data } = await axiosProducts.get('')
-      commit('setList', data)
+      const { data } = await axiosDatabase.get(`/products.json?auth=${store.getters['auth/token']}`)
+      commit('setList', parseDatabase(data))
     },
     async addProduct({ getters, commit }, product) {
-      product = {
-        ...product,
-        id: '_' + Math.random().toString(36).substr(2, 9)
-      }
-      commit('addNewProduct', product)
-      await axiosProducts.post('', product)
+      const { data } = await axiosDatabase.post(`/products.json?auth=${store.getters['auth/token']}`, product)
+      commit('addNewProduct', { ...product, id: data.name })
     },
     async updateProduct({ commit, state }, product) {
       commit('updateList', product)
-      await axiosProducts.put(`/${product.id}`, product)
+      await axiosDatabase.put(`/products/${product.id}.json?auth=${store.getters['auth/token']}`, product)
     },
     async deleteProduct({ commit }, idx) {
       commit('deleteItem', idx)
-      await axiosProducts.delete(`/${idx}`)
+      await axiosDatabase.delete(`/products/${idx}.json?auth=${store.getters['auth/token']}`)
     }
   }
 }

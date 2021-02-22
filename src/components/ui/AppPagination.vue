@@ -2,15 +2,15 @@
   <div class="app-pagination pagination pt-1">
     <button class="btn"
             v-text="'<'"
-            :disabled="+modelValue + 1 === 1"
+            :disabled="+modelValue === 1"
             @click="$emit('update:modelValue', modelValue - 1)"></button>
-    <button :class="['btn', modelValue + 1 === page ? 'primary' : '']"
+    <button :class="['btn', modelValue === page ? 'primary' : '']"
             v-for="page in pages"
             :key="page"
-            @click.prevent="$emit('update:modelValue', page - 1)">{{ page }}</button>
+            @click.prevent="$emit('update:modelValue', page)">{{ page }}</button>
     <button class="btn"
             v-text="'>'"
-            :disabled="+modelValue + 1 === pages"
+            :disabled="+modelValue === pages"
             @click="$emit('update:modelValue', modelValue + 1)"></button>
   </div>
 </template>
