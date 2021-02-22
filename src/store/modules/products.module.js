@@ -20,7 +20,7 @@ export default {
       state.productList = payload
     },
     addNewProduct(state, newProduct) {
-      state.productList.unshift(newProduct)
+      state.productList.push(newProduct)
     },
     updateList: function (state, product) {
       state.productList = state.productList.map(el => {
@@ -42,7 +42,7 @@ export default {
     async addProduct({ getters, commit }, product) {
       product = {
         ...product,
-        id: (getters.products.length + 1).toString()
+        id: '_' + Math.random().toString(36).substr(2, 9)
       }
       commit('addNewProduct', product)
       await axiosProducts.post('', product)

@@ -1,5 +1,6 @@
 <template>
-  <div class="add-product">
+  <app-loading v-if="loading"></app-loading>
+  <div class="add-product" v-else>
     <h3 class="text-center">Добавить товар</h3>
     <div class="form-control">
       <label for="prod-name">Название</label>
@@ -36,10 +37,12 @@
 </template>
 
 <script>
-import { computed, onMounted, reactive } from 'vue'
+import { computed, onMounted, reactive, ref } from 'vue'
 import { useStore } from 'vuex'
+import AppLoading from '@/components/ui/AppLoading'
 
 export default {
+  components: { AppLoading },
   emits: {
     'close-modal': {
       type: Function,
@@ -48,6 +51,7 @@ export default {
   },
   setup(_, { emit }) {
     const store = useStore()
+    const loading = ref(false)
     const newProduct = reactive({
       title: '',
       img: '',
@@ -69,7 +73,10 @@ export default {
     }
     const addProduct = async () => {
       if (!isEmpty.value) {
+        loading.value = true
         await store.dispatch('products/addProduct', newProduct)
+        await store.dispatch('products/loadProducts')
+        loading.value = false
         emit('close-modal')
       }
     }
@@ -78,7 +85,8 @@ export default {
       categories,
       setCategory,
       addProduct,
-      isEmpty
+      isEmpty,
+      loading
     }
   }
 }
