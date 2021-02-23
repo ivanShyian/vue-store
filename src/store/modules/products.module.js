@@ -38,7 +38,7 @@ export default {
   },
   actions: {
     async loadProducts({ commit }) {
-      const { data } = await axiosDatabase.get(`/products.json?auth=${store.getters['auth/token']}`)
+      const { data } = await axiosDatabase.get('/products.json')
       commit('setList', parseDatabase(data))
     },
     async addProduct({ getters, commit }, product) {

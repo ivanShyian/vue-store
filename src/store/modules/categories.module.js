@@ -27,7 +27,7 @@ export default {
   },
   actions: {
     async loadCategories({ commit }) {
-      const { data } = await axiosDatabase.get(`/categories.json?auth=${store.getters['auth/token']}`)
+      const { data } = await axiosDatabase.get('/categories.json')
       commit('setCategories', parseDatabase(data))
     },
     async addCategory({ getters, commit }, category) {

@@ -9,7 +9,7 @@ const routes = [
     component: () => import('../views/Shop'),
     meta: {
       layout: 'main',
-      auth: true
+      auth: false
     }
   },
   {
@@ -27,7 +27,7 @@ const routes = [
     component: () => import('../views/Cart'),
     meta: {
       layout: 'main',
-      auth: true
+      auth: false
     }
   },
   {
@@ -36,7 +36,7 @@ const routes = [
     component: () => import('../views/Product'),
     meta: {
       layout: 'main',
-      auth: true
+      auth: false
     }
   },
   {

@@ -4,7 +4,7 @@ import * as yup from 'yup'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 
-export function useLoginForm() {
+export function useLoginForm(cart) {
   const PASSWORD_LENGTH = 6
   const store = useStore()
   const router = useRouter()
@@ -32,6 +32,8 @@ export function useLoginForm() {
       await store.dispatch('auth/login', values)
       if (store.getters['auth/userRole'] === 'admin') {
         router.push('/admin')
+      } else if (cart) {
+        router.replace(cart)
       } else {
         router.push('/')
       }
