@@ -8,17 +8,8 @@
     <h1>Корзина</h1>
     <app-loading v-if="loading"></app-loading>
     <h3 class="text-center" v-else-if="!bought.length && !loading"> В корзине пока ничего нет</h3>
-    <table class="table" v-else-if="bought && !loading">
-      <thead>
-      <tr>
-        <th>Наименование</th>
-        <th>Количество</th>
-        <th>Цена (шт)</th>
-      </tr>
-      </thead>
-      <cart-list :bought="bought"
-      ></cart-list>
-    </table>
+    <cart-table v-else-if="bought && !loading"
+                :bought="bought"></cart-table>
     <hr>
     <div style="text-align: right">
       <p class="text-right" v-if="amount"><strong>Всего: {{ amount }} руб.</strong></p>
@@ -31,9 +22,9 @@
 
 <script>
 import AppLoading from '@/components/ui/AppLoading'
-import CartList from '@/components/cart/CartList'
 import { useStore } from 'vuex'
 import { computed, onMounted, ref, watch } from 'vue'
+import CartTable from '@/components/cart/CartTable'
 
 export default {
   setup() {
@@ -50,13 +41,13 @@ export default {
 
     const filtered = computed(() => products.value
       .filter(el => {
-        if (Object.keys(cart.value).length) {
-          return Object.keys(cart.value).includes(el.id)
+        if (Object.keys(cart.value).length && Object.keys(cart.value.list).length) {
+          return Object.keys(cart.value.list).includes(el.id)
         }
       }))
 
     const bought = computed(() => filtered.value.map(el => {
-      el.count = cart.value[el.id].count
+      el.quantity = cart.value.list[el.id].count
       return el
     }))
 
@@ -79,7 +70,7 @@ export default {
     }
   },
   components: {
-    CartList,
+    CartTable,
     AppLoading
   }
 }
