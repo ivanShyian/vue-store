@@ -6,14 +6,16 @@ export default {
     }
   },
   getters: {
-    cartLength(state) {
-      return Object.keys(state.cart).length
-    },
     cart(state) {
       return state.cart
     },
     cartItem: (state) => (idx) => {
       return Object.keys(state.cart).length ? state.cart.list[idx] : false
+    },
+    cartProductQuantity(state) {
+      return Object.keys(state.cart).length ? Object.keys(state.cart.list)
+        .map(el => state.cart.list[el].count)
+        .reduce((acc, sum) => acc + sum, 0) : null
     }
   },
   mutations: {

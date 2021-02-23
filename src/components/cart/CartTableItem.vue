@@ -2,10 +2,13 @@
   <tr>
     <td>{{ item.title }}</td>
     <td>
-      <button class="btn danger" @click.prevent="minus">-
+      <button class="btn danger"
+              @click.prevent="minus">-
       </button>
       {{ item.quantity }}
-      <button class="btn primary" :disabled="productsAreOut" @click.prevent="plus">+
+      <button class="btn primary"
+              :disabled="productsAreOut"
+              @click.prevent="plus">+
       </button>
     </td>
     <td>{{ item.price }} руб</td>
