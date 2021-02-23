@@ -4,22 +4,28 @@
       <img :src="product.img" alt="">
     </div>
     <h4 class="product-title">{{ product.title }}</h4>
-    <product-price :price="product.price"
-                   :count="product.count"
-                   @buy="bought = true"
-                   v-if="!bought"
-    ></product-price>
-    <product-quantity v-else
-                      :count="product.count"
-                      @counter-is-zero="bought = false"
-    ></product-quantity>
+    <div class="text-center" v-if="!bought">
+      <button v-if="!notAvailable"
+              class="btn"
+              @click.stop="buy">{{ currency(product.price) }}
+      </button>
+      <p v-else>Нет в наличии</p>
+    </div>
+    <div class="product-controls" v-else>
+      <button class="btn danger" @click.stop="minus">-</button>
+      <strong>{{ counter }}</strong>
+      <button class="btn primary"
+              :disabled="productsAreOut"
+              @click.stop="plus">+</button>
+    </div>
   </div>
 </template>
 
 <script>
-import ProductPrice from '@/components/product/ProductPrice'
-import ProductQuantity from '@/components/product/ProductQuantity'
-import { ref } from 'vue'
+import { currency } from '@/utils/currency'
+import { useCart } from '@/use/cart'
+import { onMounted } from 'vue'
+import { useStore } from 'vuex'
 export default {
   props: {
     product: {
@@ -28,13 +34,31 @@ export default {
       default: Object
     }
   },
-  setup() {
-    const bought = ref(false)
+  setup(props) {
+    const store = useStore()
+    const {
+      bought,
+      notAvailable,
+      productsAreOut,
+      minus,
+      buy,
+      plus,
+      counter
+    } = useCart(props.product)
+    onMounted(() => {
+      counter.value = bought.value ? store.getters['cart/cartItem'](props.product.id).count : null
+    })
     return {
-      bought
+      bought,
+      currency,
+      notAvailable,
+      productsAreOut,
+      minus,
+      buy,
+      plus,
+      counter
     }
-  },
-  components: { ProductQuantity, ProductPrice }
+  }
 }
 </script>
 

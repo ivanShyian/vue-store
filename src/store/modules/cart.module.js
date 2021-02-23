@@ -20,11 +20,19 @@ export default {
     setCart(state, cart) {
       state.cart = cart
       localStorage.setItem('cart', JSON.stringify(cart))
-      console.log(cart)
     },
-    deleteCart(state) {
-      state.cart = {}
-      localStorage.removeItem('cart')
+    deleteItem(state, cart) {
+      for (const i in state.cart) {
+        if (cart.id === i) {
+          if (Object.keys(state.cart).length === 1 && state.cart[i].count === 1) {
+            localStorage.removeItem('cart')
+          } else {
+            delete state.cart[i]
+            localStorage.setItem('cart', JSON.stringify(state.cart))
+          }
+        }
+      }
+      console.log(state.cart)
     }
   }
 }
