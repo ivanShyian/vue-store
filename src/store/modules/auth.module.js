@@ -8,7 +8,8 @@ export default {
   state() {
     return {
       role: localStorage.getItem(USER),
-      token: localStorage.getItem(TOKEN_KEY)
+      token: localStorage.getItem(TOKEN_KEY),
+      uid: localStorage.getItem('uid') ?? 'guest'
     }
   },
   getters: {
@@ -30,9 +31,11 @@ export default {
       state.token = token
       localStorage.setItem(TOKEN_KEY, token)
     },
-    setUser(state, role) {
-      state.role = role
-      localStorage.setItem(USER, role)
+    setUser(state, user) {
+      state.role = user.role
+      state.uid = user.uid
+      localStorage.setItem(USER, user.role)
+      localStorage.setItem('uid', user.uid)
     },
     logout(state) {
       state.token = null
@@ -46,7 +49,7 @@ export default {
         const url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.VUE_APP_FB_KEY}`
         const { data } = await axios.post(url, { ...payload, returnSecureToken: true })
         const res = await axiosAuth.get(`/${data.localId}.json?auth=${data.idToken}`)
-        commit('setUser', res.data.role)
+        commit('setUser', { role: res.data.role, uid: data.localId })
         commit('setToken', data.idToken)
       } catch (e) {
         dispatch('alert/doAlert', {

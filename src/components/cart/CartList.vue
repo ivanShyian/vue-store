@@ -4,21 +4,29 @@
       :key="product.id">
     <td>{{ product.title }}</td>
     <td>
-      <button class="btn primary"
-              @click.prevent="add(product.id)">+
+      <button class="btn danger" @click="$emit('minus')">-
       </button>
       {{ product.count }}
-      <button class="btn danger"
-              @click.prevent="minus(product.id)">-
+      <button class="btn primary" @click="$emit('plus')">+
       </button>
     </td>
-    <td>{{ price(product.price, product.count) }} руб</td>
+    <td>{{ product.price }} руб</td>
   </tr>
   </tbody>
 </template>
 <script>
-import { useCart } from '@/use/cart'
+
 export default {
+  emits: {
+    minus: {
+      type: Function,
+      required: false
+    },
+    plus: {
+      type: Function,
+      required: false
+    }
+  },
   props: {
     bought: {
       type: Array,
@@ -26,11 +34,8 @@ export default {
       default: Array
     }
   },
-  setup() {
+  setup(props) {
     return {
-      add: useCart().addProduct,
-      minus: useCart().minusProduct,
-      price: useCart().price
     }
   }
 }

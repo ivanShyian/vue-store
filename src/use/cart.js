@@ -23,6 +23,7 @@ export function useCart(product) {
     }
   }
   const plus = () => {
+    console.log(counter.value)
     if (!productsAreOut.value) {
       counter.value++
       store.commit('cart/setCart', addToCart(product, counter.value))

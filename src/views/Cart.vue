@@ -16,7 +16,8 @@
         <th>Цена (шт)</th>
       </tr>
       </thead>
-      <cart-list :bought="bought"></cart-list>
+      <cart-list :bought="bought"
+      ></cart-list>
     </table>
     <hr>
     <div style="text-align: right">
@@ -32,21 +33,13 @@
 import AppLoading from '@/components/ui/AppLoading'
 import CartList from '@/components/cart/CartList'
 import { useStore } from 'vuex'
-import { computed, onMounted, reactive, ref, watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 
 export default {
-  components: {
-    CartList,
-    AppLoading
-  },
   setup() {
-    const CART_MODEL = {
-      2: 3,
-      5: 1
-    }
-    const store = useStore()
-    const cart = reactive(CART_MODEL)
     const loading = ref(false)
+    const store = useStore()
+    const cart = computed(() => store.getters['cart/cart'])
     const amount = ref(null)
     onMounted(async () => {
       loading.value = true
@@ -56,11 +49,14 @@ export default {
     const products = computed(() => store.getters['products/products'])
 
     const filtered = computed(() => products.value
-      .filter(el => Object.keys(cart)
-        .includes(el.id.toString())))
+      .filter(el => {
+        if (Object.keys(cart.value).length) {
+          return Object.keys(cart.value).includes(el.id)
+        }
+      }))
 
     const bought = computed(() => filtered.value.map(el => {
-      el.count = cart[el.id.toString()]
+      el.count = cart.value[el.id].count
       return el
     }))
 
@@ -74,23 +70,17 @@ export default {
       }, 0)
     })
     return {
+      loading,
       products,
       bought,
       amount,
-      loading,
       price,
-      filtered,
-      addProduct: (id) => {
-        cart[id] += 1
-      },
-      minusProduct: (id) => {
-        if (cart[id] !== 1) {
-          cart[id] -= 1
-        } else {
-          delete cart[id]
-        }
-      }
+      filtered
     }
+  },
+  components: {
+    CartList,
+    AppLoading
   }
 }
 </script>

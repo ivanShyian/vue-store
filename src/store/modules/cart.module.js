@@ -1,3 +1,5 @@
+import store from '../index'
+
 export default {
   namespaced: true,
   state() {
@@ -13,7 +15,7 @@ export default {
       return state.cart
     },
     cartItem: (state) => (idx) => {
-      return state.cart[idx]
+      return Object.keys(state.cart).length ? state.cart[store.state.auth.uid].list[idx] : false
     }
   },
   mutations: {
@@ -22,12 +24,14 @@ export default {
       localStorage.setItem('cart', JSON.stringify(cart))
     },
     deleteItem(state, cart) {
-      for (const i in state.cart) {
+      const globalCart = state.cart[store.state.auth.uid].list
+      for (const i in globalCart) {
         if (cart.id === i) {
-          if (Object.keys(state.cart).length === 1 && state.cart[i].count === 1) {
+          if (Object.keys(globalCart).length === 1 && globalCart[i].count === 1) {
             localStorage.removeItem('cart')
+            state.cart = {}
           } else {
-            delete state.cart[i]
+            delete globalCart[i]
             localStorage.setItem('cart', JSON.stringify(state.cart))
           }
         }
