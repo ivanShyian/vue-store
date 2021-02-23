@@ -3,7 +3,6 @@ import { ref, computed } from 'vue'
 import { addToCart } from '@/utils/cart'
 
 export function useCart(product) {
-  console.log(product)
   const bought = ref(store.getters['cart/cartItem'](product.id) ?? false)
   const counter = ref(null)
   const notAvailable = computed(() => product.count <= 0)

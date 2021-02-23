@@ -18,13 +18,14 @@
       </li>
       <li>
         <router-link to="/cart">Корзина</router-link>
+        <span>{{ cart }}</span>
       </li>
     </ul>
   </div>
 </template>
 
 <script>
-import { useRoute } from 'vue-router'
+import { useStore } from 'vuex'
 import { computed } from 'vue'
 
 export default {
@@ -36,13 +37,25 @@ export default {
     }
   },
   setup() {
-    const route = useRoute()
+    const store = useStore()
+    const cart = computed(() => store.getters['cart/cartProductQuantity'])
     return {
-      user: computed(() => route)
+      cart
     }
   }
 }
 </script>
 
 <style scoped lang="scss">
+.navbar-menu:last-child {
+  li:last-child {
+    span {
+      font-size: .8rem;
+      background-color: rgba(255, 0, 0, .7);
+      border-radius: 2rem;
+      color: white;
+      padding: 0 .7rem;
+    }
+  }
+}
 </style>
