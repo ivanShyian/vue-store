@@ -1,6 +1,6 @@
 import store from '../store/index'
 import { ref, computed } from 'vue'
-import { addToCart } from '../utils/cart'
+import { addToCart } from '@/utils/cart'
 
 export function useCart(product) {
   const counter = ref(null)
@@ -11,6 +11,7 @@ export function useCart(product) {
   const buy = () => {
     bought.value = true
     store.commit('cart/setCart', addToCart(product))
+    counter.value = 1
   }
   const minus = () => {
     if (counter.value !== 1) {
@@ -18,7 +19,7 @@ export function useCart(product) {
       store.commit('cart/setCart', addToCart(product, counter.value))
     } else {
       bought.value = false
-      store.commit('cart/deleteCart')
+      store.commit('cart/deleteItem', product)
     }
   }
   const plus = () => {
