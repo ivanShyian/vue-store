@@ -5,7 +5,7 @@
       <button class="btn danger"
               @click.prevent="minus">-
       </button>
-      {{ item.quantity }}
+      <span>{{ item.quantity }}</span>
       <button class="btn primary"
               :disabled="productsAreOut"
               @click.prevent="plus">+
@@ -28,15 +28,22 @@ export default {
   },
   setup(props) {
     const { minus, counter, plus, productsAreOut } = useCart(props.item)
-    onMounted(() => {
-      console.log(props.item)
-      counter.value = props.item.quantity
-    })
-    return { minus, counter, plus, productsAreOut }
+    onMounted(() => (counter.value = props.item.quantity))
+    return {
+      minus,
+      counter,
+      plus,
+      productsAreOut
+    }
   }
 }
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+tr td {
+  flex: 0 0 33.333%;
+}
+button:last-child {
+  margin: 0 0 0 10px;
+}
 </style>

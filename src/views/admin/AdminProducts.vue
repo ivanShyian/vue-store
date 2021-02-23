@@ -2,7 +2,7 @@
   <app-loading v-if="loading"></app-loading>
   <div class="card inventory" v-else>
     <div class="inventory__top">
-      <h2>Инвентарь</h2>
+      <h1>Инвентарь</h1>
       <button class="btn primary"
               @click="modal = true">Создать</button>
     </div>

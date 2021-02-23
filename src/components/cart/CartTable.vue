@@ -33,6 +33,11 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+table tr {
+  display: flex;
+  th {
+    flex: 0 0 33.333%;
+  }
+}
 </style>

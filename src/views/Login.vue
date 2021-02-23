@@ -1,6 +1,6 @@
 <template>
   <app-loading v-if="loading"></app-loading>
-  <div class="container with-nav" v-else>
+  <div class="login-form container with-nav" v-else>
     <form class="card" @submit.prevent="onSubmit">
       <h3 class="text-center">Вход в систему</h3>
       <div class="form-control">
@@ -38,10 +38,15 @@ import AppLoading from '@/components/ui/AppLoading'
 
 export default {
   components: { AppLoading },
-  setup() {
+  props: {
+    cart: {
+      type: Boolean,
+      required: false
+    }
+  },
+  setup(props) {
     const route = useRoute()
     const store = useStore()
-
     if (route.query.message) {
       store.dispatch('alert/doAlert', {
         type: 'warning',
@@ -49,7 +54,7 @@ export default {
       })
     }
     return {
-      ...useLoginForm()
+      ...useLoginForm(props.cart)
     }
   }
 }
