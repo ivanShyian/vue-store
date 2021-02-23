@@ -2,8 +2,7 @@
   <div class="text-center">
     <button class="btn"
             v-if="!notAvailable"
-            @click.stop="$emit('buy')"
-    >{{ currency(price) }}
+            @click.stop="$emit('buy')">{{ currency(price) }}
     </button>
     <p v-else>Нет в наличии</p>
   </div>
@@ -29,7 +28,7 @@ export default {
     }
   },
   setup(props) {
-    const notAvailable = computed(() => props.count <= 0)
+    const notAvailable = computed(() => props.product.count <= 0)
     return {
       notAvailable,
       currency

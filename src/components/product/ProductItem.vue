@@ -1,26 +1,30 @@
 <template>
-  <div :title="product.title" class="card center">
+  <div :title="product.title" class="card center" v-if="category">
     <h3>{{ product.title }}</h3>
     <img :src="product.img" alt=""/>
     <p v-if="category">Категория: <strong>{{ category.title }}</strong></p>
-    <product-price :price="product.price"
-                   v-if="!bought"
-                   @buy="buy(1)"
-                   :count="product.count"
-    ></product-price>
-    <product-quantity v-else
-                      :count="product.count"
-                      @counter-is-zero="bought = false"
-    ></product-quantity>
+    <div class="text-center" v-if="!bought">
+      <button v-if="!notAvailable"
+              class="btn"
+              @click.stop="buy">{{ currency(product.price) }}
+      </button>
+      <p v-else>Нет в наличии</p>
+    </div>
+    <div class="product-controls" v-else>
+      <button class="btn danger" @click.stop="minus">-</button>
+      <strong>{{ counter }}</strong>
+      <button class="btn primary"
+              :disabled="productsAreOut"
+              @click.stop="plus">+</button>
+    </div>
   </div>
 </template>
 
 <script>
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted } from 'vue'
 import { useStore } from 'vuex'
-import ProductPrice from '@/components/product/ProductPrice'
-import ProductQuantity from '@/components/product/ProductQuantity'
-import { addToCart } from '@/utils/cart'
+import { useCart } from '@/use/cart'
+import { currency } from '@/utils/currency'
 
 export default {
   props: {
@@ -31,24 +35,36 @@ export default {
     }
   },
   setup(props) {
-    const bought = ref(false)
     const store = useStore()
+    const {
+      bought,
+      notAvailable,
+      productsAreOut,
+      minus,
+      buy,
+      plus,
+      counter
+    } = useCart(props.product)
+
     const category = computed(() => store.getters['categories/categories']
       .find(el => el.type === props.product.category))
+
     onMounted(async () => {
       await store.dispatch('categories/loadCategories')
+      counter.value = bought.value ? store.getters['cart/cartItem'](props.product.id).count : null
     })
-    const buy = (c) => {
-      bought.value = true
-      store.commit('cart/setCart', addToCart(props.product, c))
-    }
     return {
       category,
+      currency,
+      productsAreOut,
       bought,
-      buy
+      notAvailable,
+      minus,
+      buy,
+      plus,
+      counter
     }
-  },
-  components: { ProductQuantity, ProductPrice }
+  }
 }
 </script>
 

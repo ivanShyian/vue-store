@@ -2,7 +2,7 @@ export default {
   namespaced: true,
   state() {
     return {
-      cart: localStorage.getItem('cart') ?? {}
+      cart: JSON.parse(localStorage.getItem('cart')) ?? {}
     }
   },
   getters: {
@@ -11,12 +11,15 @@ export default {
     },
     cart(state) {
       return state.cart
+    },
+    cartItem: (state) => (idx) => {
+      return state.cart[idx]
     }
   },
   mutations: {
     setCart(state, cart) {
       state.cart = cart
-      localStorage.setItem('cart', cart)
+      localStorage.setItem('cart', JSON.stringify(cart))
       console.log(cart)
     },
     deleteCart(state) {

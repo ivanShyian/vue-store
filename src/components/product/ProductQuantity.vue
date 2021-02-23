@@ -1,12 +1,10 @@
 <template>
   <div class="product-controls">
-    <button class="btn danger" @click.stop="minusProduct"
-    >-</button>
+    <button class="btn danger" @click.stop="minusProduct">-</button>
     <strong>{{ counter }}</strong>
     <button class="btn primary"
             :disabled="productsAreOut"
-            @click.stop="plusProduct"
-    >+</button>
+            @click.stop="plusProduct">+</button>
   </div>
 </template>
 
