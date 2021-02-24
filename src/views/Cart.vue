@@ -4,7 +4,7 @@
           style="cursor: pointer"
     >Вернуться к товарам</span>
   </div>
-  <div class="card">
+  <div class="card" v-if="!hasBought">
     <h1>Корзина</h1>
     <app-loading v-if="loading"></app-loading>
     <h3 class="text-center" v-else-if="!bought.length && !loading"> В корзине пока ничего нет</h3>
@@ -14,7 +14,7 @@
     <div v-if="amount">
       <p class="text-right"><strong>Всего: {{ amount }} руб.</strong></p>
       <p class="text-right" v-if="auth">
-        <button class="btn">Оплатить</button>
+        <button class="btn" @click.prevent="buy(amount)">Оплатить</button>
       </p>
       <div class="cart-login" v-else>
         <span>Для приобретения товара необходимо войти в систему!</span>
@@ -22,12 +22,16 @@
       </div>
     </div>
   </div>
+  <div class="card" v-else>
+    <h1>Спасибо за покупку</h1>
+    <h3>Пока что мы с вам не свяжемся, к сожалению..</h3>
+  </div>
 </template>
 
 <script>
-import AppLoading from '@/components/ui/AppLoading'
 import { useStore } from 'vuex'
 import { computed, onMounted, ref, watch } from 'vue'
+import AppLoading from '@/components/ui/AppLoading'
 import CartTable from '@/components/cart/CartTable'
 import Login from '@/views/Login'
 
@@ -38,6 +42,7 @@ export default {
     const cart = computed(() => store.getters['cart/cart'])
     const amount = ref(null)
     const auth = computed(() => store.getters['auth/isAuthenticated'])
+    const hasBought = ref(false)
 
     onMounted(async () => {
       loading.value = true
@@ -62,13 +67,20 @@ export default {
         return acc
       }, 0)
     })
+
+    const buy = async (total) => {
+      await store.dispatch('cart/submitPurchase', total)
+      hasBought.value = true
+    }
     return {
+      hasBought,
       loading,
       products,
       bought,
       amount,
       filtered,
-      auth
+      auth,
+      buy
     }
   },
   components: {

@@ -8,7 +8,7 @@ export function useCart(product) {
   const notAvailable = computed(() => product.count <= 0)
   const productsAreOut = computed(() => counter.value === product.count)
 
-  const buy = () => {
+  const pick = () => {
     bought.value = true
     store.commit('cart/setCart', addToCart(product))
     counter.value = 1
@@ -33,7 +33,7 @@ export function useCart(product) {
     notAvailable,
     productsAreOut,
     minus,
-    buy,
+    pick,
     plus,
     counter
   }

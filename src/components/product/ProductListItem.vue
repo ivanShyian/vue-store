@@ -7,7 +7,7 @@
     <div class="text-center" v-if="!bought">
       <button v-if="!notAvailable"
               class="btn"
-              @click.stop="buy">{{ currency(product.price) }}
+              @click.stop="pick">{{ currency(product.price) }}
       </button>
       <p v-else>Нет в наличии</p>
     </div>
@@ -41,7 +41,7 @@ export default {
       notAvailable,
       productsAreOut,
       minus,
-      buy,
+      pick,
       plus,
       counter
     } = useCart(props.product)
@@ -54,7 +54,7 @@ export default {
       notAvailable,
       productsAreOut,
       minus,
-      buy,
+      pick,
       plus,
       counter
     }
