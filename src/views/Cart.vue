@@ -70,6 +70,8 @@ export default {
 
     const buy = async (total) => {
       await store.dispatch('cart/submitPurchase', total)
+      await store.dispatch('products/updateProduct', bought.value)
+      await store.commit('cart/clearCart')
       hasBought.value = true
     }
     return {

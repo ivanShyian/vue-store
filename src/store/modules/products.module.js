@@ -46,8 +46,17 @@ export default {
       commit('addNewProduct', { ...product, id: data.name })
     },
     async updateProduct({ commit, state }, product) {
-      commit('updateList', product)
-      await axiosDatabase.put(`/products/${product.id}.json?auth=${store.getters['auth/token']}`, product)
+      if (product.length) {
+        product.map(async item => {
+          item.count = item.count - item.quantity
+          delete item.quantity
+          commit('updateList', item)
+          await axiosDatabase.put(`/products/${item.id}.json?auth=${store.getters['auth/token']}`, item)
+        })
+      } else {
+        commit('updateList', product)
+        await axiosDatabase.put(`/products/${product.id}.json?auth=${store.getters['auth/token']}`, product)
+      }
     },
     async deleteProduct({ commit }, idx) {
       commit('deleteItem', idx)
