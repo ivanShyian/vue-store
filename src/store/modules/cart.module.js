@@ -1,3 +1,5 @@
+import { axiosDatabase } from '@/axios/request'
+
 export default {
   namespaced: true,
   state() {
@@ -20,7 +22,6 @@ export default {
   },
   mutations: {
     setCart(state, cart) {
-      console.log(cart)
       state.cart = cart
       localStorage.setItem('cart', JSON.stringify(cart))
     },
@@ -37,7 +38,17 @@ export default {
           }
         }
       }
-      console.log(state.cart)
+    },
+    clearCart(state) {
+      state.cart = {}
+      localStorage.removeItem('cart')
+    }
+  },
+  actions: {
+    async submitPurchase({ getters, rootState, rootGetters, commit }, total) {
+      const cart = { ...getters.cart, uid: rootState.auth.uid, total }
+      await axiosDatabase.post(`/cart.json?auth=${rootGetters['auth/token']}`, cart)
+      commit('clearCart')
     }
   }
 }
