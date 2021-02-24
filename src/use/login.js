@@ -4,12 +4,16 @@ import * as yup from 'yup'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 
-export function useLoginForm(cart) {
+export function useLoginForm(cart, register) {
   const PASSWORD_LENGTH = 6
   const store = useStore()
   const router = useRouter()
   const loading = ref(false)
   const { submitCount, isSubmitting, handleSubmit } = useForm()
+  const { value: name, handleBlur: nameBlur, errorMessage: nameError } = useField(
+    'name',
+    register.value ? yup.string().trim().required('Введите ваше имя') : yup.string().trim()
+  )
   const { value: email, handleBlur: emailBlur, errorMessage: emailError } = useField(
     'email',
     yup.string().trim().required('Введите email').email('Необходимо ввести корректный email')
@@ -29,13 +33,23 @@ export function useLoginForm(cart) {
   const onSubmit = handleSubmit(async (values) => {
     try {
       loading.value = true
-      await store.dispatch('auth/login', values)
-      if (store.getters['auth/userRole'] === 'admin') {
-        router.push('/admin')
-      } else if (cart) {
-        router.replace(cart)
+      if (register.value) {
+        await store.dispatch('auth/register', values)
+        if (cart) {
+          router.replace({ name: 'Cart' })
+        } else {
+          router.push('/')
+        }
       } else {
-        router.push('/')
+        const { name, ...data } = values
+        await store.dispatch('auth/login', data)
+        if (store.getters['auth/userRole'] === 'admin') {
+          router.push('/admin')
+        } else if (cart) {
+          router.replace({ name: 'Cart' })
+        } else {
+          router.push('/')
+        }
       }
       loading.value = false
     } catch (e) {
@@ -44,10 +58,13 @@ export function useLoginForm(cart) {
   })
   return {
     email,
+    name,
     password,
     emailBlur,
+    nameBlur,
     passwordBlur,
     emailError,
+    nameError,
     passwordError,
     isSubmitting,
     isTooManyAttempts,
