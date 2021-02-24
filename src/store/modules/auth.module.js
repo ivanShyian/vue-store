@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { errorMessage } from '@/utils/error'
-import { axiosAuth } from '@/axios/request'
+import { axiosAuth, axiosDatabase } from '@/axios/request'
 const TOKEN_KEY = 'jwt-token'
 const USER = 'user-role'
 export default {
@@ -48,8 +48,7 @@ export default {
       try {
         const url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.VUE_APP_FB_KEY}`
         const { data } = await axios.post(url, { ...payload, returnSecureToken: true })
-        const res = await axiosAuth.get(`/${data.localId}.json?auth=${data.idToken}`)
-        commit('setUser', { role: res.data.role, uid: data.localId })
+        await dispatch('getUserRole', { uid: data.localId, token: data.idToken })
         commit('setToken', data.idToken)
       } catch (e) {
         dispatch('alert/doAlert', {
@@ -57,6 +56,39 @@ export default {
           text: errorMessage(e.response.data.error.message)
         }, { root: true })
         throw new Error()
+      }
+    },
+    async getUserRole({ commit, dispatch }, payload) {
+      try {
+        const { data } = await axiosAuth.get(`/${payload.uid}.json?auth=${payload.token}`)
+        commit('setUser', { role: data.role, uid: payload.uid })
+      } catch (e) {
+        dispatch('alert/doAlert', {
+          type: 'danger',
+          text: errorMessage(e.response.data.error.message)
+        }, { root: true })
+        throw new Error()
+      }
+    },
+    async register({ state, commit, dispatch }, payload) {
+      try {
+        const { name, ...userData } = payload
+        // fb register
+        const url = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.VUE_APP_FB_KEY}`
+        const { data } = await axios.post(url, { ...userData, returnSecureToken: true })
+        // then put user data to database
+        await axiosDatabase.put(`/users/${data.localId}.json?auth=${data.idToken}`, { name, role: 'user' })
+        // then login user
+        await dispatch('login', userData)
+        dispatch('alert/doAlert', {
+          type: 'primary',
+          text: 'Вы были успешно зарегестрированы'
+        }, { root: true })
+      } catch (e) {
+        dispatch('alert/doAlert', {
+          type: 'danger',
+          text: errorMessage(e.response.data.error.message)
+        }, { root: true })
       }
     }
   }
