@@ -40,6 +40,15 @@ const routes = [
     }
   },
   {
+    path: '/:NotFound(.*)',
+    name: 'NotFound',
+    component: () => import('../views/NotFound'),
+    meta: {
+      layout: 'main',
+      auth: false
+    }
+  },
+  {
     path: '/admin',
     name: 'Admin',
     component: () => import('../views/admin/Admin'),
@@ -63,11 +72,6 @@ const routes = [
         path: 'categories',
         name: 'AdminCategories',
         component: () => import('../views/admin/AdminCategories')
-      },
-      {
-        path: 'playground',
-        name: 'AdminPlayground',
-        component: () => import('../views/admin/AdminPlayground')
       }
     ]
   }

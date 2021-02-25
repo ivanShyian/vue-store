@@ -1,6 +1,6 @@
 <template>
   <div class="navbar">
-    <h4>{{ admin ? 'Admin' : 'Vue-store' }}</h4>
+    <h4>{{ logo }}</h4>
     <ul class="navbar-menu" v-if="admin">
       <li>
         <router-link to="/admin/products">Инвентарь</router-link>
@@ -16,15 +16,19 @@
       <li>
         <router-link to="/">Магазин</router-link>
       </li>
-      <li>
+      <li class="cart-link">
         <router-link to="/cart">Корзина</router-link>
         <span>{{ cart }}</span>
+      </li>
+      <li v-if="isAuth">
+        <a href="#" @click="logout">Выйти</a>
       </li>
     </ul>
   </div>
 </template>
 
 <script>
+import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import { computed } from 'vue'
 
@@ -36,11 +40,31 @@ export default {
       default: Boolean
     }
   },
-  setup() {
+  setup(props) {
     const store = useStore()
+    const router = useRouter()
+    const isAuth = computed(() => store.getters['auth/isAuthenticated'])
+    const userName = computed(() => store.state.auth.user.name)
     const cart = computed(() => store.getters['cart/cartProductQuantity'])
+    const logo = computed(() => {
+      if (props.admin) {
+        return 'Admin | VueStore'
+      } else if (!props.admin && isAuth.value) {
+        return `VueStore | ${userName.value}`
+      } else {
+        return 'VueStore'
+      }
+    })
+    const logout = () => {
+      store.commit('auth/logout')
+      store.commit('cart/clearCart')
+      router.push('/auth')
+    }
     return {
-      cart
+      cart,
+      logout,
+      isAuth,
+      logo
     }
   }
 }
@@ -48,7 +72,7 @@ export default {
 
 <style scoped lang="scss">
 .navbar-menu:last-child {
-  li:last-child {
+  .cart-link {
     span {
       font-size: .8rem;
       background-color: rgba(255, 0, 0, .7);
