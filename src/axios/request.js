@@ -8,7 +8,6 @@ const axiosDatabase = axios.create({
 axiosDatabase.interceptors.response.use(null, (rejected) => {
   if (rejected.response.status === 401) {
     store.commit('auth/logout')
-    store.commit('cart/clearCart')
     router.push('/auth?message=auth')
   }
   return Promise.reject(rejected)

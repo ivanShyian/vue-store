@@ -31,25 +31,27 @@
 <script>
 import { useStore } from 'vuex'
 import { computed, onMounted, ref, watch } from 'vue'
+import { useRouter } from 'vue-router'
 import AppLoading from '@/components/ui/AppLoading'
 import CartTable from '@/components/cart/CartTable'
 import Login from '@/views/Login'
 
 export default {
   setup() {
-    const loading = ref(false)
     const store = useStore()
-    const cart = computed(() => store.getters['cart/cart'])
+    const router = useRouter()
+    const loading = ref(false)
     const amount = ref(null)
-    const auth = computed(() => store.getters['auth/isAuthenticated'])
     const hasBought = ref(false)
+    const cart = computed(() => store.getters['cart/cart'])
+    const auth = computed(() => store.getters['auth/isAuthenticated'])
+    const products = computed(() => store.getters['products/products'])
 
     onMounted(async () => {
       loading.value = true
       await store.dispatch('products/loadProducts')
       loading.value = false
     })
-    const products = computed(() => store.getters['products/products'])
     const filtered = computed(() => products.value
       .filter(el => {
         if (Object.keys(cart.value).length && Object.keys(cart.value.list).length) {
@@ -69,10 +71,18 @@ export default {
     })
 
     const buy = async (total) => {
-      await store.dispatch('cart/submitPurchase', total)
-      await store.dispatch('products/updateProduct', bought.value)
-      await store.commit('cart/clearCart')
-      hasBought.value = true
+      if (auth.value) {
+        await store.dispatch('cart/submitPurchase', total)
+        await store.dispatch('products/updateProduct', bought.value)
+        await store.commit('cart/clearCart')
+        hasBought.value = true
+      } else {
+        await store.dispatch('alert/doAlert', {
+          type: 'warning',
+          text: 'Только зарегестрированные пользователи могут совершать покупки'
+        })
+        router.push('/auth')
+      }
     }
     return {
       hasBought,
