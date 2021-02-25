@@ -12,7 +12,6 @@ export default {
   },
   mutations: {
     setAlert(state, payload) {
-      console.log(payload)
       state.alert = payload
     },
     clearAlert(state) {
@@ -21,7 +20,6 @@ export default {
   },
   actions: {
     doAlert({ commit }, payload) {
-      console.log(payload)
       commit('setAlert', payload)
       setTimeout(() => {
         commit('clearAlert')

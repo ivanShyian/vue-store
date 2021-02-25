@@ -3,7 +3,9 @@
 * {
     box-sizing: border-box;
 }
-
+html {
+    height: 100vh;
+}
 body {
     font-family: Inter, Roboto, Oxygen, Fira Sans, Helvetica Neue, sans-serif;
     -webkit-font-smoothing: antialiased;
@@ -11,6 +13,7 @@ body {
     font-size: 16px;
     color: #2c3e50;
     background: #2c3e50;
+    height: auto;
 }
 
 hr {

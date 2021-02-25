@@ -46,7 +46,13 @@ export default {
   },
   actions: {
     async submitPurchase({ getters, rootState, rootGetters, commit }, total) {
-      const cart = { ...getters.cart, uid: rootState.auth.uid, total }
+      const cart = {
+        ...getters.cart,
+        total,
+        date: Date.now(),
+        uid: rootState.auth.uid,
+        email: rootState.auth.user.email
+      }
       await axiosDatabase.post(`/cart.json?auth=${rootGetters['auth/token']}`, cart)
     }
   }
