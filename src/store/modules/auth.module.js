@@ -4,14 +4,16 @@ import { axiosAuth, axiosDatabase } from '@/axios/request'
 
 const TOKEN_KEY = 'jwt-token'
 const USER = 'user-data'
-const UID = 'local-id'
+const UID = 'user-id'
+const REFRESH = 'jwt-refreshToken'
 export default {
   namespaced: true,
   state() {
     return {
+      refresh: JSON.parse(localStorage.getItem(REFRESH)),
       user: JSON.parse(localStorage.getItem(USER)),
-      token: localStorage.getItem(TOKEN_KEY),
-      uid: localStorage.getItem(UID) ?? 'guest'
+      uid: localStorage.getItem(UID) ?? 'guest',
+      token: localStorage.getItem(TOKEN_KEY)
     }
   },
   getters: {
@@ -26,12 +28,21 @@ export default {
     },
     isAdmin(_, getters) {
       return getters.userRole === 'admin'
+    },
+    isExpired(state) {
+      return new Date() >= state.refresh.expires
     }
   },
   mutations: {
-    setToken(state, token) {
-      state.token = token
-      localStorage.setItem(TOKEN_KEY, token)
+    setToken(state, { idToken, refreshToken, expiresIn }) {
+      const expires = new Date(new Date().getTime() + Number(expiresIn) * 1000)
+      state.token = idToken
+      state.refresh = {
+        'r-token': refreshToken,
+        expires
+      }
+      localStorage.setItem(TOKEN_KEY, idToken)
+      localStorage.setItem(REFRESH, JSON.stringify(state.refresh))
     },
     setUser(state, user) {
       const { uid, ...userData } = user
@@ -45,6 +56,7 @@ export default {
       localStorage.removeItem(TOKEN_KEY)
       localStorage.removeItem(USER)
       localStorage.removeItem(UID)
+      localStorage.removeItem(REFRESH)
     }
   },
   actions: {
@@ -54,13 +66,28 @@ export default {
         const { data } = await axios.post(url, { ...payload, returnSecureToken: true })
 
         await dispatch('getUserData', { uid: data.localId, token: data.idToken })
-        commit('setToken', data.idToken)
+        commit('setToken', data)
       } catch (e) {
         dispatch('alert/doAlert', {
           type: 'danger',
           text: errorMessage(e.response.data.error.message)
         }, { root: true })
         throw new Error()
+      }
+    },
+    async refreshToken({ dispatch, commit, state }) {
+      try {
+        const url = `https://securetoken.googleapis.com/v1/token?key=${process.env.VUE_APP_FB_KEY}`
+        const { data } = await axios.post(url, {
+          grant_type: 'refresh_token',
+          refresh_token: state.refresh['r-token']
+        })
+        commit('setToken', { data })
+      } catch (e) {
+        dispatch('alert/doAlert', {
+          type: 'danger',
+          text: errorMessage(e.response.data.error.message)
+        }, { root: true })
       }
     },
     async getUserData({ commit, dispatch }, payload) {
