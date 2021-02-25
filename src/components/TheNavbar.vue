@@ -8,8 +8,8 @@
       <li>
         <router-link to="/admin/categories">Категории</router-link>
       </li>
-      <li>
-        <router-link to="/">Выйти</router-link>
+      <li v-if="isAuth">
+        <a href="#" @click="logout">Выйти</a>
       </li>
     </ul>
     <ul class="navbar-menu" v-if="!admin">
@@ -56,6 +56,10 @@ export default {
       }
     })
     const logout = () => {
+      if (props.admin) {
+        store.commit('auth/logout')
+        return router.push('/')
+      }
       store.commit('auth/logout')
       store.commit('cart/clearCart')
       router.push('/auth')
