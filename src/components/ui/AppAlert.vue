@@ -2,7 +2,7 @@
   <div class="alert primary"
        :class="['alert', alert.type]"
        v-if="alert">
-    <div class="alert-close">&times;</div>
+    <div class="alert-close" @click.prevent="closeAlert">&times;</div>
     <p class="alert-title">{{ title }}</p>
     <p>{{ alert.text }}</p>
   </div>
@@ -15,13 +15,15 @@ export default {
   setup() {
     const store = useStore()
     const alert = computed(() => store.getters['alert/isAlert'])
+    const title = computed(() => alert.value ? TITLE_MAP[alert.value.type] : '')
     const TITLE_MAP = {
       primary: 'Успешно!',
       danger: 'Ошибка!',
       warning: 'Внимание!'
     }
-    const title = computed(() => alert.value ? TITLE_MAP[alert.value.type] : '')
+    const closeAlert = () => store.commit('alert/clearAlert')
     return {
+      closeAlert,
       alert,
       title
     }
@@ -37,9 +39,12 @@ div.alert {
   width: 20rem;
   z-index: 10;
   border-radius: 1rem;
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0 3px 6px, rgba(0, 0, 0, 0.23) 0 3px 6px;
   span {
     display: block;
   }
+}
+.alert-close {
+  cursor: pointer;
 }
 </style>

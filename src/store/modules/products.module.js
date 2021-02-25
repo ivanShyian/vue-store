@@ -38,29 +38,49 @@ export default {
   },
   actions: {
     async loadProducts({ commit }) {
-      const { data } = await axiosDatabase.get('/products.json')
-      commit('setList', parseDatabase(data))
+      try {
+        const { data } = await axiosDatabase.get('/products.json')
+        commit('setList', parseDatabase(data))
+      } catch (e) {
+        console.error(e)
+        throw new Error()
+      }
     },
     async addProduct({ getters, commit }, product) {
-      const { data } = await axiosDatabase.post(`/products.json?auth=${store.getters['auth/token']}`, product)
-      commit('addNewProduct', { ...product, id: data.name })
+      try {
+        const { data } = await axiosDatabase.post(`/products.json?auth=${store.getters['auth/token']}`, product)
+        commit('addNewProduct', { ...product, id: data.name })
+      } catch (e) {
+        console.error(e)
+        throw new Error()
+      }
     },
     async updateProduct({ commit, state }, product) {
-      if (product.length) {
-        product.map(async item => {
-          item.count = item.count - item.quantity
-          delete item.quantity
-          commit('updateList', item)
-          await axiosDatabase.put(`/products/${item.id}.json?auth=${store.getters['auth/token']}`, item)
-        })
-      } else {
-        commit('updateList', product)
-        await axiosDatabase.put(`/products/${product.id}.json?auth=${store.getters['auth/token']}`, product)
+      try {
+        if (product.length) {
+          product.map(async el => {
+            el.count -= el.quantity
+            delete el.quantity
+            commit('updateList', el)
+            await axiosDatabase.put(`/products/${el.id}.json?auth=${store.getters['auth/token']}`, el)
+          })
+        } else {
+          commit('updateList', product)
+          await axiosDatabase.put(`/products/${product.id}.json?auth=${store.getters['auth/token']}`, product)
+        }
+      } catch (e) {
+        console.error(e)
+        throw new Error()
       }
     },
     async deleteProduct({ commit }, idx) {
-      commit('deleteItem', idx)
-      await axiosDatabase.delete(`/products/${idx}.json?auth=${store.getters['auth/token']}`)
+      try {
+        commit('deleteItem', idx)
+        await axiosDatabase.delete(`/products/${idx}.json?auth=${store.getters['auth/token']}`)
+      } catch (e) {
+        console.error(e)
+        throw new Error()
+      }
     }
   }
 }

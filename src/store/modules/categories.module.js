@@ -27,17 +27,32 @@ export default {
   },
   actions: {
     async loadCategories({ commit }) {
-      const { data } = await axiosDatabase.get('/categories.json')
-      commit('setCategories', parseDatabase(data))
+      try {
+        const { data } = await axiosDatabase.get('/categories.json')
+        commit('setCategories', parseDatabase(data))
+      } catch (e) {
+        console.error(e)
+        throw new Error()
+      }
     },
     async addCategory({ getters, commit }, category) {
-      const { data } = await axiosDatabase.post(`/categories.json?auth=${store.getters['auth/token']}`, category)
-      commit('addNewCategory', { ...category, id: data.name })
+      try {
+        const { data } = await axiosDatabase.post(`/categories.json?auth=${store.getters['auth/token']}`, category)
+        commit('addNewCategory', { ...category, id: data.name })
+      } catch (e) {
+        console.error(e)
+        throw new Error()
+      }
     },
     async deleteCategory({ getters, commit }, idx) {
-      const toDelete = getters.categories.find(cat => cat.id === idx)
-      commit('delCategory', toDelete)
-      await axiosDatabase.delete(`/categories/${toDelete.id}.json?auth=${store.getters['auth/token']}`)
+      try {
+        const toDelete = getters.categories.find(cat => cat.id === idx)
+        commit('delCategory', toDelete)
+        await axiosDatabase.delete(`/categories/${toDelete.id}.json?auth=${store.getters['auth/token']}`)
+      } catch (e) {
+        console.error(e)
+        throw new Error()
+      }
     }
   }
 }
