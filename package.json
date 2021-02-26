@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "axios": "^0.21.1",
+    "cloudpayments": "^5.0.1",
     "core-js": "^3.6.5",
     "vee-validate": "^4.1.13",
     "vue": "^3.0.0",
