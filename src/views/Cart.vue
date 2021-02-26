@@ -30,8 +30,9 @@
 
 <script>
 import { useStore } from 'vuex'
-import { computed, onMounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
+import { computed, onMounted, ref, watch } from 'vue'
+import { pay } from '@/utils/pay'
 import AppLoading from '@/components/ui/AppLoading'
 import CartTable from '@/components/cart/CartTable'
 import Login from '@/views/Login'
@@ -71,15 +72,17 @@ export default {
     })
 
     const buy = async (total) => {
-      if (auth.value) {
-        await store.dispatch('cart/submitPurchase', total)
+      try {
+        const email = store.state.auth.user.email
         await store.dispatch('products/updateProduct', bought.value)
+        const result = await pay(total, cart.value.list, email)
+        await store.dispatch('cart/submitPurchase', result)
         await store.commit('cart/clearCart')
         hasBought.value = true
-      } else {
+      } catch (e) {
         await store.dispatch('alert/doAlert', {
-          type: 'warning',
-          text: 'Только зарегестрированные пользователи могут совершать покупки'
+          text: 'Только зарегистрированные пользователи могут совершать покупку',
+          type: 'warning'
         })
         router.push('/auth')
       }
