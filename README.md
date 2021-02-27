@@ -3,22 +3,21 @@
 ### Project link
 ```
 Deployed link:
-https://vue-online-store-afb16.web.app
+[https://vue-online-store-afb16.web.app](Vue-store)
 ```
 ### Project auth
 ```
-To login you can try to buy some stuff from store or just forward to this link: 
-https://vue-online-store-afb16.web.app/auth
+To login you can try to buy some stuff from store or just forward to this link:
+[https://vue-online-store-afb16.web.app/auth](Vue-store LoginPage)
 
-
-User login
+**User login**
 email: herring@example.com
 pass: qwerty123
-OR
+**OR**
 just register by clicking on regsiter link in login page
 
 
-Admin login
+**Admin login**
 email: admin@example.com
 pass: qwerty123
 ```
