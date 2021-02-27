@@ -7,9 +7,10 @@
   <div class="card" v-if="!hasBought">
     <h1>Корзина</h1>
     <app-loading v-if="loading"></app-loading>
-    <h3 class="text-center" v-else-if="!bought.length && !loading"> В корзине пока ничего нет</h3>
-    <cart-table v-else-if="bought && !loading"
-                :bought="bought"></cart-table>
+    <cart-table v-else-if="hasData"
+                :bought="filtered"
+    ></cart-table>
+    <h3 class="text-center" v-else> В корзине пока ничего нет</h3>
     <hr>
     <div v-if="amount">
       <p class="text-right"><strong>Всего: {{ amount }} руб.</strong></p>
@@ -30,7 +31,6 @@
 
 <script>
 import { useStore } from 'vuex'
-import { useRouter } from 'vue-router'
 import { computed, onMounted, ref, watch } from 'vue'
 import { pay } from '@/utils/pay'
 import AppLoading from '@/components/ui/AppLoading'
@@ -40,11 +40,10 @@ import Login from '@/views/Login'
 export default {
   setup() {
     const store = useStore()
-    // eslint-disable-next-line no-unused-vars
-    const router = useRouter()
     const loading = ref(false)
     const amount = ref(null)
     const hasBought = ref(false)
+    const hasData = computed(() => !loading.value && filtered.value.length)
     const cart = computed(() => store.getters['cart/cart'])
     const auth = computed(() => store.getters['auth/isAuthenticated'])
     const products = computed(() => store.getters['products/products'])
@@ -55,18 +54,14 @@ export default {
       loading.value = false
     })
     const filtered = computed(() => products.value
-      .filter(el => {
-        if (Object.keys(cart.value).length && Object.keys(cart.value.list).length) {
-          return Object.keys(cart.value.list).includes(el.id)
-        }
+      .filter(el => Object.keys(cart.value).length ? Object.keys(cart.value.list).includes(el.id) : null)
+      .map(el => {
+        el.quantity = cart.value.list[el.id].count
+        return el
       }))
 
-    const bought = computed(() => filtered.value.map(el => {
-      el.quantity = cart.value.list[el.id].count
-      return el
-    }))
-    watch(bought, () => {
-      amount.value = bought.value.map(el => el.price * el.quantity).reduce((acc, curr) => {
+    watch(filtered, () => {
+      amount.value = filtered.value.map(el => el.price * el.quantity).reduce((acc, curr) => {
         acc += curr
         return acc
       }, 0)
@@ -75,16 +70,16 @@ export default {
     const buy = async (total) => {
       const email = store.state.auth.user.email
       const result = await pay(total, cart.value.list, email)
-      await store.dispatch('products/updateProduct', bought.value)
+      await store.dispatch('products/updateProduct', filtered.value)
       await store.dispatch('cart/submitPurchase', result)
       await store.commit('cart/clearCart')
       hasBought.value = true
     }
     return {
+      hasData,
       hasBought,
       loading,
       products,
-      bought,
       amount,
       filtered,
       auth,
@@ -104,10 +99,12 @@ export default {
   background-color: #94a9ce;
   border-radius: 1rem;
   padding: 1rem;
+
   span {
     font-size: 1.2rem;
     color: #2c3e50;
   }
+
   .login-form {
     margin: 1rem 0 0 0;
   }

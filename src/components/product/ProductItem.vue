@@ -50,19 +50,18 @@ export default {
       .find(el => el.type === props.product.category))
 
     onMounted(async () => {
-      await store.dispatch('categories/loadCategories')
       counter.value = bought.value ? store.getters['cart/cartItem'](props.product.id).count : null
     })
     return {
-      category,
-      currency,
       productsAreOut,
-      bought,
       notAvailable,
+      category,
+      counter,
+      bought,
+      currency,
       minus,
       pick,
-      plus,
-      counter
+      plus
     }
   }
 }

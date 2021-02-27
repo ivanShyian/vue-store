@@ -42,9 +42,9 @@ export default {
     })
     return {
       deleteCategory,
+      submit,
       confirm,
-      flag,
-      submit
+      flag
     }
   },
   components: { AppConfirm }

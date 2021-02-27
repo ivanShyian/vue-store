@@ -30,9 +30,9 @@ export default {
     const { minus, counter, plus, productsAreOut } = useCart(props.item)
     onMounted(() => (counter.value = props.item.quantity))
     return {
+      plus,
       minus,
       counter,
-      plus,
       productsAreOut
     }
   }

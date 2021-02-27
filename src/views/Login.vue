@@ -1,7 +1,7 @@
 <template>
   <app-loading v-if="loading"></app-loading>
   <div class="login-form container with-nav" v-else>
-    <form class="card" @submit.prevent="onSubmit">
+    <form class="card" @submit.prevent="submitAuth">
       <h3 class="text-center"
       >{{ register ? 'Регистрация в системе' : 'Вход в систему' }}</h3>
       <div class="form-control" v-if="register">
@@ -51,11 +51,10 @@
 import { useLoginForm } from '@/use/login'
 import { useRoute } from 'vue-router'
 import { useStore } from 'vuex'
-import AppLoading from '@/components/ui/AppLoading'
 import { ref } from 'vue'
+import AppLoading from '@/components/ui/AppLoading'
 
 export default {
-  components: { AppLoading },
   props: {
     cart: {
       type: Boolean,
@@ -66,7 +65,23 @@ export default {
   setup(props) {
     const route = useRoute()
     const store = useStore()
+    const loading = ref(false)
     const register = ref(false)
+
+    const {
+      email,
+      name,
+      password,
+      emailBlur,
+      nameBlur,
+      passwordBlur,
+      emailError,
+      nameError,
+      passwordError,
+      isSubmitting,
+      isTooManyAttempts,
+      onSubmit
+    } = useLoginForm(props.cart, register)
 
     if (route.query.message) {
       store.dispatch('alert/doAlert', {
@@ -74,11 +89,30 @@ export default {
         text: 'Войдите в систему'
       })
     }
-    return {
-      ...useLoginForm(props.cart, register),
-      register
+
+    const submitAuth = async () => {
+      loading.value = true
+      await onSubmit()
+      loading.value = false
     }
-  }
+    return {
+      submitAuth,
+      register,
+      loading,
+      email,
+      name,
+      password,
+      emailBlur,
+      nameBlur,
+      passwordBlur,
+      emailError,
+      nameError,
+      passwordError,
+      isSubmitting,
+      isTooManyAttempts
+    }
+  },
+  components: { AppLoading }
 }
 </script>
 

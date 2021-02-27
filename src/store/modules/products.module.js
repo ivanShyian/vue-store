@@ -13,7 +13,7 @@ export default {
     products(state) {
       return state.productList
     },
-    product: (state) => (idx) => {
+    product: state => idx => {
       return state.productList.find(el => el.id === idx)
     }
   },
