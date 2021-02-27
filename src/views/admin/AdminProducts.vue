@@ -13,7 +13,7 @@
   <teleport to="body" v-if="modal">
     <app-modal product
                @close-modal="modal = false"></app-modal>
-  </teleport>z
+  </teleport>
 </template>
 
 <script>

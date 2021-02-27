@@ -82,6 +82,7 @@ export default {
           grant_type: 'refresh_token',
           refresh_token: state.refresh['r-token']
         })
+        console.log('TOKEN REFRESHED', data)
         commit('setToken', { data })
       } catch (e) {
         dispatch('alert/doAlert', {

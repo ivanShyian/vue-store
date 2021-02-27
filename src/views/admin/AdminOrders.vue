@@ -3,10 +3,13 @@
   <AdminCard title="Заказы"
              @modal="modal = true"
              v-else>
-    <admin-orders-table v-if="hasData" :orders="orders"></admin-orders-table>
-    <h1 class="text-center" v-else>
-      Список заказов пуст
-    </h1>
+    <div class="orders-page">
+      <admin-orders-filter v-model="query"></admin-orders-filter>
+      <admin-orders-table v-if="hasData && orders.length" :orders="orders"></admin-orders-table>
+      <h1 class="text-center" v-else>
+        Список заказов пуст
+      </h1>
+    </div>
   </AdminCard>
 </template>
 
@@ -14,30 +17,53 @@
 import AdminCard from '@/components/admin/AdminCard'
 import AppLoading from '@/components/ui/AppLoading'
 import AdminOrdersTable from '@/components/admin/AdminOrdersTable'
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { useStore } from 'vuex'
+import AdminOrdersFilter from '@/components/admin/AdminOrdersFilter'
+import { useRoute, useRouter } from 'vue-router'
 
 export default {
   setup() {
     const store = useStore()
     const loading = ref(false)
-    const orders = computed(() => store.getters['orders/orders'])
+    const router = useRouter()
+    const route = useRoute()
+    const orders = computed(() => store.getters['orders/orders'](query.value))
     const hasData = computed(() => orders.value.length && !loading.value)
+    const query = ref('')
+
+    watch(query, qv => {
+      if (!qv.length) {
+        return router.replace('')
+      }
+      router.replace({ query: { order: qv } })
+    })
+
     onMounted(async () => {
       loading.value = true
       await store.dispatch('orders/loadOrders')
+      query.value = route.query.order ? route.query.order : ''
       loading.value = false
     })
     return {
       hasData,
       loading,
-      orders
+      orders,
+      query
     }
   },
-  components: { AdminOrdersTable, AppLoading, AdminCard }
+  components: {
+    AdminOrdersFilter,
+    AdminOrdersTable,
+    AppLoading,
+    AdminCard
+  }
 }
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+.orders-page {
+  display: flex;
+  flex-direction: column;
+}
 </style>

@@ -9,14 +9,34 @@ export default {
     }
   },
   getters: {
-    orders(state) {
-      console.log(state.orders)
-      return state.orders
+    orders: state => value => {
+      return state.orders.filter(el => {
+        if (value.length && Object.keys(el).includes('status')) {
+          return el && el.status === value
+        }
+        if (!value.length) {
+          return el && !el.status
+        }
+      })
+    },
+    oneOrder: state => idx => {
+      return state.orders.find(o => o.id === idx)
     }
   },
   mutations: {
     setOrders(state, orders) {
       state.orders = orders
+    },
+    changeStatus(state, data) {
+      state.orders = state.orders.map(el => {
+        if (el.id === data.id) {
+          el.status = data.status
+        }
+        return el
+      })
+    },
+    delOrder(state, idx) {
+      state.orders = state.orders.map(e => e.id !== idx)
     }
   },
   actions: {
@@ -29,6 +49,22 @@ export default {
         commit('setOrders', parseDatabase(data))
       } catch (e) {
         console.warn(e.message)
+      }
+    },
+    async changeOrderStatus({ rootGetters, commit }, data) {
+      try {
+        await axiosDatabase.patch(`/orders/${data.id}.json?auth=${rootGetters['auth/token']}`, { status: data.status })
+        commit('changeStatus', data)
+      } catch (e) {
+        console.warn(e)
+      }
+    },
+    async deleteOrder({ rootGetters, commit }, idx) {
+      try {
+        await axiosDatabase.delete(`/orders/${idx}.json?auth=${rootGetters['auth/token']}`)
+        commit('delOrder', idx)
+      } catch (e) {
+        console.warn(e)
       }
     }
   }

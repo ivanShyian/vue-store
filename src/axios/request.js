@@ -16,7 +16,7 @@ axiosDatabase.interceptors.request.use(async config => {
   return config
 })
 axiosDatabase.interceptors.response.use(null, rejected => {
-  console.log(rejected)
+  console.dir(rejected)
   if (rejected.response.status === 401) {
     store.commit('auth/logout')
     router.push('/auth?message=auth')

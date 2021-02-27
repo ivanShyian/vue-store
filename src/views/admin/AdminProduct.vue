@@ -94,7 +94,7 @@ export default {
       confirm.value = true
     }
     watch(flag, async (response) => {
-      if (response) {
+      if (response && deleteFlag.value) {
         await store.dispatch('products/deleteProduct', product.value.id)
         await router.push('/admin/products')
       }

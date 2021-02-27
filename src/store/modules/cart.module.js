@@ -48,6 +48,7 @@ export default {
     async submitPurchase({ getters, rootState, rootGetters, commit }, result) {
       try {
         const cart = {
+          name: rootState.auth.user.name,
           list: result.data,
           total: result.amount,
           date: Date.now(),

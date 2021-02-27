@@ -27,6 +27,9 @@ export default {
   display: flex;
   flex-direction: column;
   width: 100%;
+  padding: 1rem 0 0 0;
+  margin-top: 1rem;
+  border-top: 1px solid rgba(0, 0, 0, .25);
 
   &__headers {
     display: flex;

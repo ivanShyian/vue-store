@@ -74,8 +74,6 @@ export default {
       router.replace('/')
     }
     return {
-      category,
-      search,
       setCategory,
       setQuery,
       clearFilter
@@ -85,6 +83,9 @@ export default {
 </script>
 
 <style scoped>
+.products-filter {
+  flex: 0 0 25%;
+}
 li.list-item.active-link {
   background: #eee;
 }

@@ -1,11 +1,14 @@
 <template>
-  <div class="products-table">
+  <div class="products-table" v-if="products.length">
     <product-card
       v-for="product in products"
       :key="product.id"
       :product="product"
       @click="$router.push(`/product/${product.id}`)"
     ></product-card>
+  </div>
+  <div class="empty" v-else>
+    <h3>Товары в данной категории отсутствуют</h3>
   </div>
 </template>
 <script>
@@ -27,6 +30,10 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+.empty {
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+}
 </style>

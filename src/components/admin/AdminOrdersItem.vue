@@ -1,10 +1,14 @@
 <template>
   <tr class="orders-table__item"
       v-for="(ord, idx) in orders"
-      :key="ord.date">
+      :key="ord.id">
     <td>{{ idx + 1 }}</td>
     <td>{{ parseDate(ord.date) }}</td>
-    <td><button class="btn primary">Открыть</button></td>
+    <td>
+      <button class="btn primary"
+              @click="$router.replace(`order/${ord.id}`)"
+      >Открыть</button>
+    </td>
   </tr>
 </template>
 
@@ -18,7 +22,7 @@ export default {
       required: true
     }
   },
-  setup(props) {
+  setup() {
     return {
       parseDate
     }
