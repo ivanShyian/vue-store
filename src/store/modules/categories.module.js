@@ -43,7 +43,7 @@ export default {
     },
     async addCategory({ getters, commit }, category) {
       try {
-        const { data } = await axiosDatabase.post(`/categories.json?auth=${store.getters['auth/token']}`, category)
+        const { data } = await axiosDatabase.post('/categories.json', category)
         commit('addNewCategory', { ...category, id: data.name })
       } catch (e) {
         console.error(e)
@@ -54,7 +54,7 @@ export default {
       try {
         const toDelete = getters.categories.find(cat => cat.id === idx)
         commit('delCategory', toDelete)
-        await axiosDatabase.delete(`/categories/${toDelete.id}.json?auth=${store.getters['auth/token']}`)
+        await axiosDatabase.delete(`/categories/${toDelete.id}.json`)
       } catch (e) {
         console.error(e)
         throw new Error()

@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { errorMessage } from '@/utils/error'
-import { axiosAuth, axiosDatabase } from '@/axios/request'
+import { axiosDatabase } from '@/axios/request'
 
 const TOKEN_KEY = 'jwt-token'
 const USER = 'user-data'
@@ -21,7 +21,7 @@ export default {
       return state.token
     },
     isAuthenticated(_, getters) {
-      return !!getters.token
+      return getters.token && !getters.isExpired
     },
     userRole(state) {
       return state.user.role
@@ -65,8 +65,8 @@ export default {
         const url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.VUE_APP_FB_KEY}`
         const { data } = await axios.post(url, { ...payload, returnSecureToken: true })
 
-        await dispatch('getUserData', { uid: data.localId, token: data.idToken })
-        commit('setToken', data)
+        await commit('setToken', data)
+        await dispatch('getUserData', data)
       } catch (e) {
         dispatch('alert/doAlert', {
           type: 'danger',
@@ -82,8 +82,7 @@ export default {
           grant_type: 'refresh_token',
           refresh_token: state.refresh['r-token']
         })
-        console.log('TOKEN REFRESHED', data)
-        commit('setToken', { data })
+        commit('setToken', data)
       } catch (e) {
         dispatch('alert/doAlert', {
           type: 'danger',
@@ -94,7 +93,7 @@ export default {
     },
     async getUserData({ commit, dispatch }, payload) {
       try {
-        const { data } = await axiosAuth.get(`/${payload.uid}.json?auth=${payload.token}`)
+        const { data } = await axiosDatabase.get(`users/${payload.localId}.json`)
         if (!data) {
           throw new Error('Пользователь не найден')
         }
@@ -111,7 +110,7 @@ export default {
         }, { root: true })
       }
     },
-    async register({ state, commit, dispatch }, payload) {
+    async register({ dispatch }, payload) {
       try {
         const { name, ...userData } = payload
 

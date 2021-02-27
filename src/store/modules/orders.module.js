@@ -40,9 +40,9 @@ export default {
     }
   },
   actions: {
-    async loadOrders({ rootGetters, commit }) {
+    async loadOrders({ commit }) {
       try {
-        const { data } = await axiosDatabase.get(`/orders.json?auth=${rootGetters['auth/token']}`)
+        const { data } = await axiosDatabase.get('/orders.json')
         if (!data) {
           throw new Error('Заказы отсутсвуют')
         }
@@ -51,9 +51,9 @@ export default {
         console.warn(e.message)
       }
     },
-    async changeOrderStatus({ rootGetters, commit }, data) {
+    async changeOrderStatus({ commit }, data) {
       try {
-        await axiosDatabase.patch(`/orders/${data.id}.json?auth=${rootGetters['auth/token']}`, { status: data.status })
+        await axiosDatabase.patch(`/orders/${data.id}.json`, { status: data.status })
         commit('changeStatus', data)
       } catch (e) {
         console.warn(e)
@@ -61,7 +61,7 @@ export default {
     },
     async deleteOrder({ rootGetters, commit }, idx) {
       try {
-        await axiosDatabase.delete(`/orders/${idx}.json?auth=${rootGetters['auth/token']}`)
+        await axiosDatabase.delete(`/orders/${idx}.json`)
         commit('delOrder', idx)
       } catch (e) {
         console.warn(e)

@@ -5,6 +5,7 @@ import store from '../store'
 const axiosDatabase = axios.create({
   baseURL: `${process.env.VUE_APP_DB_BASE}`
 })
+axiosDatabase.defaults.params = {}
 
 axiosDatabase.interceptors.request.use(async config => {
   if (!store.getters['auth/isAuthenticated']) {
@@ -13,6 +14,7 @@ axiosDatabase.interceptors.request.use(async config => {
   if (store.getters['auth/isExpired']) {
     await store.dispatch('auth/refreshToken')
   }
+  config.params.auth = store.getters['auth/token']
   return config
 })
 axiosDatabase.interceptors.response.use(null, rejected => {
@@ -24,11 +26,6 @@ axiosDatabase.interceptors.response.use(null, rejected => {
   return Promise.reject(rejected)
 })
 
-const axiosAuth = axios.create({
-  baseURL: `${process.env.VUE_APP_DB_BASE}/users`
-})
-
 export {
-  axiosDatabase,
-  axiosAuth
+  axiosDatabase
 }
