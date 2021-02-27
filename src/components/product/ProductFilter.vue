@@ -48,9 +48,9 @@ export default {
   },
   setup(props, context) {
     const router = useRouter()
-
     const category = ref(props.modelValue.category)
     const search = ref(props.modelValue.search)
+
     watch([search, category], ([sv, cv]) => {
       const query = {}
       if (sv) {

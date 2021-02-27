@@ -2,7 +2,7 @@
   <app-confirm v-if="confirm"
                title="Изменить заказ?"
                @confirm="submit"
-               @denied="confirm = false"></app-confirm>
+               @denied="onCancel"></app-confirm>
   <app-loading v-if="loading"></app-loading>
   <div class="card order" v-else-if="hasData">
     <div class="order__wrapper">
@@ -69,15 +69,19 @@ export default {
       deleteAction.value = true
       confirm.value = true
     }
+    const onCancel = () => {
+      confirm.value = false
+      deleteAction.value = false
+    }
 
     watch(flag, response => {
       if (response && deleteAction.value) {
-        // store.dispatch('orders/deleteOrder', route.params.id)
+        store.dispatch('orders/deleteOrder', route.params.id)
         store.dispatch('alert/doAlert', {
           type: 'primary',
           text: 'Заказ был успешно удален'
         })
-        router.replace('admin/products')
+        router.replace({ name: 'AdminOrders' })
       } else {
         if (response && !status.value) {
           store.dispatch('orders/changeOrderStatus', { status: 'performing', id: route.params.id })
@@ -98,6 +102,7 @@ export default {
       parseDate,
       deleteOrder,
       submit,
+      onCancel,
       hasData,
       loading,
       confirm,

@@ -45,9 +45,11 @@ export default {
       plus,
       counter
     } = useCart(props.product)
+
     onMounted(() => {
       counter.value = bought.value ? store.getters['cart/cartItem'](props.product.id).count : null
     })
+
     return {
       bought,
       currency,
