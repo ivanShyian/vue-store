@@ -1,9 +1,11 @@
 <template>
-  <div class="card modal">
-    <h4 class="text-center">{{ title }}</h4>
-    <div>
-      <button class="btn primary" @click="$emit('confirm')">Да</button>
-      <button class="btn danger" @click="$emit('denied')">Отменить</button>
+  <div class="modal-backdrop">
+    <div class="card modal">
+      <h4 class="text-center">{{ title }}</h4>
+      <div>
+        <button class="btn primary" @click="$emit('confirm')">Да</button>
+        <button class="btn danger" @click="$emit('denied')">Отменить</button>
+      </div>
     </div>
   </div>
 </template>
@@ -20,6 +22,7 @@ export default {
 .modal {
   width: auto;
 }
+
 .modal div {
   display: flex;
   justify-content: center;

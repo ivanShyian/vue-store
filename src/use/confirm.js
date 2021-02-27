@@ -7,12 +7,13 @@ export function useConfirm(hasChanges) {
   const leaveTo = ref('')
   const confirm = ref(false)
 
-  const submit = () => {
+  const submit = async () => {
     confirm.value = false
     flag.value = true
-    router.push(leaveTo.value)
+    await router.push(leaveTo.value)
+    flag.value = false
   }
-  onBeforeRouteLeave((to, from) => {
+  onBeforeRouteLeave((to) => {
     leaveTo.value = to.path
     if (flag.value) {
       return true

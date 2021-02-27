@@ -1,6 +1,6 @@
 <template>
   <app-loading v-if="loading"></app-loading>
-  <div class="card" v-else>
+  <div class="card shop" v-else>
     <product-filter :categories="categories"
                     v-model="filter"
     ></product-filter>
@@ -50,9 +50,10 @@ export default {
 </script>
 
 <style scoped>
-  .card {
+  .shop {
     border-radius: 4px;
     padding: 0;
     display: flex;
+    height: 85vh;
   }
 </style>

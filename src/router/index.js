@@ -77,6 +77,11 @@ const routes = [
         path: 'orders',
         name: 'AdminOrders',
         component: () => import('../views/admin/AdminOrders')
+      },
+      {
+        path: 'order/:id?',
+        name: 'AdminOrder',
+        component: () => import('../views/admin/AdminOrder')
       }
     ]
   }
@@ -89,6 +94,9 @@ const router = createRouter({
   linkExactActiveClass: 'active'
 })
 router.beforeEach((to, from, next) => {
+  if (store.getters['auth/isAuthenticated'] && to.name === 'NotFound' && store.getters['auth/isAdmin']) {
+    to.meta.layout = 'admin'
+  }
   const requireAuth = to.meta.auth
   if (requireAuth && store.getters['auth/isAuthenticated']) {
     if (!store.getters['auth/isAdmin'] && to.meta.layout === 'admin') {
