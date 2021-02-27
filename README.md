@@ -10,8 +10,10 @@ To login you can try to buy some stuff from store or just forward to this link:
 
 >**User login**
 >>email: herring@example.com
+
 >>pass: qwerty123
 
 >**Admin login**
 >>email: admin@example.com
+
 >>pass: qwerty123
