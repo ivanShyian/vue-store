@@ -1,32 +1,29 @@
 <template>
-  <table class="categories__content categories-table">
-    <tr class="categories-table__headers">
+  <table class="orders-table">
+    <tr class="orders-table__headers">
       <th>№</th>
-      <th>Название</th>
-      <th>Тип</th>
+      <th>Дата заказа</th>
       <th>Действие</th>
     </tr>
-    <admin-category-item :categories="categories"></admin-category-item>
+    <admin-orders-item :orders="orders"></admin-orders-item>
   </table>
 </template>
 
 <script>
-import AdminCategoryItem from '@/components/admin/AdminCategoryItem'
+import AdminOrdersItem from '@/components/admin/AdminOrdersItem'
 export default {
-  components: { AdminCategoryItem },
   props: {
-    categories: {
+    orders: {
       type: Array,
       required: true
     }
   },
-  setup() {
-  }
+  components: { AdminOrdersItem }
 }
 </script>
 
 <style scoped lang="scss">
-.categories-table {
+.orders-table {
   display: flex;
   flex-direction: column;
   width: 100%;

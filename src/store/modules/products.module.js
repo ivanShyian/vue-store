@@ -40,10 +40,15 @@ export default {
     async loadProducts({ commit }) {
       try {
         const { data } = await axiosDatabase.get('/products.json')
+        if (!data) {
+          throw new Error('Продукты отсуствуют')
+        }
         commit('setList', parseDatabase(data))
       } catch (e) {
-        console.error(e)
-        throw new Error()
+        await store.dispatch('alert/doAlert', {
+          type: 'warning',
+          text: e.message
+        }, { root: true })
       }
     },
     async addProduct({ getters, commit }, product) {

@@ -1,15 +1,14 @@
 <template>
   <app-loading v-if="loading"></app-loading>
-  <div class="card categories" v-else>
-    <div class="categories__top">
-      <h1>Категории</h1>
-      <button class="btn primary" @click="modal = true">Создать</button>
-    </div>
+  <AdminCard title="Категории"
+             button-name="Создать"
+             @modal="modal = true"
+             v-else>
     <admin-categories-table :categories="categories"></admin-categories-table>
-    <teleport to="body" v-if="modal">
-      <app-modal categories @close-modal="modal = false"></app-modal>
-    </teleport>
-  </div>
+  </AdminCard>
+  <teleport to="body" v-if="modal">
+    <app-modal categories @close-modal="modal = false"></app-modal>
+  </teleport>
 </template>
 
 <script>
@@ -18,6 +17,7 @@ import AppModal from '@/components/ui/AppModal'
 import { computed, onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
 import AppLoading from '@/components/ui/AppLoading'
+import AdminCard from '@/components/admin/AdminCard'
 export default {
   setup() {
     const modal = ref(false)
@@ -35,7 +35,7 @@ export default {
       loading
     }
   },
-  components: { AppLoading, AdminCategoriesTable, AppModal }
+  components: { AdminCard, AppLoading, AdminCategoriesTable, AppModal }
 }
 </script>
 

@@ -29,10 +29,16 @@ export default {
     async loadCategories({ commit }) {
       try {
         const { data } = await axiosDatabase.get('/categories.json')
+        if (!data) {
+          throw new Error('Категории отсутствуют')
+        }
         commit('setCategories', parseDatabase(data))
       } catch (e) {
         console.error(e)
-        throw new Error()
+        await store.dispatch('alert/doAlert', {
+          type: 'warning',
+          text: e.message
+        }, { root: true })
       }
     },
     async addCategory({ getters, commit }, category) {

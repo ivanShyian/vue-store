@@ -1,7 +1,7 @@
 <template>
   <table class="inventory__content inventory-table">
     <tr class="inventory-table__headers">
-      <th>#</th>
+      <th>№</th>
       <th>Название</th>
       <th>Изображение</th>
       <th>Цена</th>

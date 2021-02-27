@@ -1,21 +1,19 @@
 <template>
   <app-loading v-if="loading"></app-loading>
-  <div class="card inventory" v-else>
-    <div class="inventory__top">
-      <h1>Инвентарь</h1>
-      <button class="btn primary"
-              @click="modal = true">Создать</button>
-    </div>
+  <AdminCard title="Продукты"
+             button-name="Создать"
+             @modal="modal = true"
+             v-else>
     <div v-if="current">
       <admin-products-table :products="current"></admin-products-table>
       <app-pagination :pages="result.length"
                       v-model="page"></app-pagination>
     </div>
-    <teleport to="body" v-if="modal">
-      <app-modal product
-                 @close-modal="modal = false"></app-modal>
-    </teleport>
-  </div>
+  </AdminCard>
+  <teleport to="body" v-if="modal">
+    <app-modal product
+               @close-modal="modal = false"></app-modal>
+  </teleport>z
 </template>
 
 <script>
@@ -27,6 +25,7 @@ import AdminProductsTable from '@/components/admin/AdminProductsTable'
 import AppModal from '@/components/ui/AppModal'
 import AppPagination from '@/components/ui/AppPagination'
 import AppLoading from '@/components/ui/AppLoading'
+import AdminCard from '@/components/admin/AdminCard'
 
 export default {
   setup() {
@@ -51,6 +50,7 @@ export default {
     }
   },
   components: {
+    AdminCard,
     AppLoading,
     AppPagination,
     AdminProductsTable,
