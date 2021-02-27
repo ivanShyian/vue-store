@@ -2,11 +2,11 @@
 
 ### Project link
 Deployed link:
-[https://vue-online-store-afb16.web.app](Vue-store)
+[Vue-store](https://vue-online-store-afb16.web.app)
 
 ### Project auth
 To login you can try to buy some stuff from store or just forward to this link:
-[https://vue-online-store-afb16.web.app/auth](Vue-store LoginPage)
+[Vue-store LoginPage](https://vue-online-store-afb16.web.app/auth)
 
 **User login**
 email: herring@example.com
