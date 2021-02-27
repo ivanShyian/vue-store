@@ -1,24 +1,24 @@
 # vue-online-store
 
-## Project setup
+## Project link
 ```
-npm install
+Deployed link: \
+https://vue-online-store-afb16.web.app
 ```
-
-### Compiles and hot-reloads for development
+### Project auth
 ```
-npm run serve
+To login you can try to buy some stuff from store or just forward to this link: 
+https://vue-online-store-afb16.web.app/auth
 ```
-
-### Compiles and minifies for production
+### User login
 ```
-npm run build
+email: herring@example.com
+pass: qwerty123
+OR
+just register by clicking on regsiter link in login page
 ```
-
-### Lints and fixes files
+### Admin login
 ```
-npm run lint
+email: admin@example.com
+pass: qwerty123
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
