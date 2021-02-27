@@ -8,6 +8,9 @@
       <li>
         <router-link to="/admin/categories">Категории</router-link>
       </li>
+      <li>
+        <router-link to="/admin/orders">Заказы</router-link>
+      </li>
       <li v-if="isAuth">
         <a href="#" @click="logout">Выйти</a>
       </li>

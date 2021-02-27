@@ -88,11 +88,15 @@ export default {
           type: 'danger',
           text: errorMessage(e.response.data.error.message)
         }, { root: true })
+        throw new Error()
       }
     },
     async getUserData({ commit, dispatch }, payload) {
       try {
         const { data } = await axiosAuth.get(`/${payload.uid}.json?auth=${payload.token}`)
+        if (!data) {
+          throw new Error('Пользователь не найден')
+        }
         commit('setUser', {
           uid: payload.uid,
           role: data.role,
@@ -102,9 +106,8 @@ export default {
       } catch (e) {
         dispatch('alert/doAlert', {
           type: 'danger',
-          text: errorMessage(e.response.data.error.message)
+          text: errorMessage(e.message)
         }, { root: true })
-        throw new Error()
       }
     },
     async register({ state, commit, dispatch }, payload) {
@@ -144,9 +147,8 @@ export default {
       } catch (e) {
         dispatch('alert/doAlert', {
           type: 'danger',
-          text: errorMessage(e.response.data.error.message)
+          text: errorMessage(e.message)
         }, { root: true })
-        throw new Error()
       }
     }
   }

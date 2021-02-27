@@ -24,7 +24,7 @@
   </div>
   <div class="card" v-else>
     <h1>Спасибо за покупку</h1>
-    <h3>Пока что мы с вам не свяжемся, к сожалению..</h3>
+    <h3>Квитанция была выслана на Вашу почту</h3>
   </div>
 </template>
 
@@ -40,6 +40,7 @@ import Login from '@/views/Login'
 export default {
   setup() {
     const store = useStore()
+    // eslint-disable-next-line no-unused-vars
     const router = useRouter()
     const loading = ref(false)
     const amount = ref(null)
@@ -72,20 +73,12 @@ export default {
     })
 
     const buy = async (total) => {
-      try {
-        const email = store.state.auth.user.email
-        await store.dispatch('products/updateProduct', bought.value)
-        const result = await pay(total, cart.value.list, email)
-        await store.dispatch('cart/submitPurchase', result)
-        await store.commit('cart/clearCart')
-        hasBought.value = true
-      } catch (e) {
-        await store.dispatch('alert/doAlert', {
-          text: 'Только зарегистрированные пользователи могут совершать покупку',
-          type: 'warning'
-        })
-        router.push('/auth')
-      }
+      const email = store.state.auth.user.email
+      const result = await pay(total, cart.value.list, email)
+      await store.dispatch('products/updateProduct', bought.value)
+      await store.dispatch('cart/submitPurchase', result)
+      await store.commit('cart/clearCart')
+      hasBought.value = true
     }
     return {
       hasBought,

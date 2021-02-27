@@ -54,10 +54,9 @@ export default {
           uid: rootState.auth.uid,
           email: result.accountId
         }
-        await axiosDatabase.post(`/cart.json?auth=${rootGetters['auth/token']}`, cart)
+        await axiosDatabase.post(`/orders.json?auth=${rootGetters['auth/token']}`, cart)
       } catch (e) {
         console.error(e)
-        throw new Error()
       }
     }
   }

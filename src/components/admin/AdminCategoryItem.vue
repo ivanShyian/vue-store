@@ -56,6 +56,7 @@ export default {
   display: flex;
   align-items: center;
   border-top: 1px solid rgba(0, 0, 0, .1);
+  margin: 0 .5rem;
   td {
     text-align: center;
     flex: 0 0 26.8%;

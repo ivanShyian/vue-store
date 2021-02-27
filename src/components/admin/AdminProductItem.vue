@@ -45,7 +45,7 @@ export default {
   }
   td:first-child {
     flex: 0 0 10%;
-    margin-left: -1rem;
+    margin-left: -.5rem;
   }
 }
 </style>

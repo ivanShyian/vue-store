@@ -4,6 +4,7 @@ import alert from './modules/alert.module'
 import products from './modules/products.module'
 import categories from './modules/categories.module'
 import cart from './modules/cart.module'
+import orders from './modules/orders.module'
 
 const plugins = []
 if (process.env.NODE_ENV === 'development') {
@@ -17,6 +18,7 @@ export default createStore({
     alert,
     products,
     categories,
-    cart
+    cart,
+    orders
   }
 })
