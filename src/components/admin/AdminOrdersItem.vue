@@ -6,7 +6,7 @@
     <td>{{ parseDate(ord.date) }}</td>
     <td>
       <button class="btn primary"
-              @click="$router.replace(`order/${ord.id}`)"
+              @click="$router.push(`order/${ord.id}`)"
       >Открыть</button>
     </td>
   </tr>
@@ -49,5 +49,8 @@ export default {
   td:last-child {
     padding-left: 1.5rem;
   }
+}
+tr:nth-child(even) {
+  background-color: rgba(111, 213, 48, .2);
 }
 </style>

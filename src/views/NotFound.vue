@@ -1,8 +1,8 @@
 <template>
   <div class="card">
-    <h1>Page was not found</h1>
+    <h1>Данной страницы не было найдено</h1>
     <router-link :to="routeTo" v-slot="{navigate}">
-      <button class="btn" @click="navigate">Follow to main page</button>
+      <button class="btn" @click="navigate">Перейти на главную страницу</button>
     </router-link>
   </div>
 </template>

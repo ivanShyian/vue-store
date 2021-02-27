@@ -45,7 +45,7 @@ export default {
     }
   },
   actions: {
-    async submitPurchase({ getters, rootState, rootGetters, commit }, result) {
+    async submitPurchase({ rootState }, result) {
       try {
         const cart = {
           name: rootState.auth.user.name,
@@ -55,7 +55,7 @@ export default {
           uid: rootState.auth.uid,
           email: result.accountId
         }
-        await axiosDatabase.post(`/orders.json?auth=${rootGetters['auth/token']}`, cart)
+        await axiosDatabase.post('/orders.json', cart)
       } catch (e) {
         console.error(e)
       }

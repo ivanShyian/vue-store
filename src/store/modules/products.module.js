@@ -53,7 +53,7 @@ export default {
     },
     async addProduct({ getters, commit }, product) {
       try {
-        const { data } = await axiosDatabase.post(`/products.json?auth=${store.getters['auth/token']}`, product)
+        const { data } = await axiosDatabase.post('/products.json', product)
         commit('addNewProduct', { ...product, id: data.name })
       } catch (e) {
         console.error(e)
@@ -67,11 +67,11 @@ export default {
             el.count -= el.quantity
             delete el.quantity
             commit('updateList', el)
-            await axiosDatabase.put(`/products/${el.id}.json?auth=${store.getters['auth/token']}`, el)
+            await axiosDatabase.put(`/products/${el.id}.json`, el)
           })
         } else {
           commit('updateList', product)
-          await axiosDatabase.put(`/products/${product.id}.json?auth=${store.getters['auth/token']}`, product)
+          await axiosDatabase.put(`/products/${product.id}.json`, product)
         }
       } catch (e) {
         console.error(e)
@@ -81,7 +81,7 @@ export default {
     async deleteProduct({ commit }, idx) {
       try {
         commit('deleteItem', idx)
-        await axiosDatabase.delete(`/products/${idx}.json?auth=${store.getters['auth/token']}`)
+        await axiosDatabase.delete(`/products/${idx}.json`)
       } catch (e) {
         console.error(e)
         throw new Error()

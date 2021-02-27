@@ -47,7 +47,7 @@ export default {
     const store = useStore()
     const router = useRouter()
     const isAuth = computed(() => store.getters['auth/isAuthenticated'])
-    const userName = computed(() => store.state.auth.user.name)
+    const userName = computed(() => store.state.auth.user && store.state.auth.user.name)
     const cart = computed(() => store.getters['cart/cartProductQuantity'])
     const logo = computed(() => {
       if (props.admin) {
