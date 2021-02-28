@@ -35,11 +35,15 @@
       </div>
     </div>
     <teleport to="body">
-      <app-confirm :title="titleMessage"
-                   v-if="confirm"
-                   @confirm="submit"
-                   @denied="confirm = false"
-      ></app-confirm>
+      <transition name="confirm-trans"
+                  enter-active-class="animate__animated animate__fadeIn"
+                  leave-active-class="animate__animated animate__fadeOut">
+        <app-confirm :title="titleMessage"
+                     v-if="confirm"
+                     @confirm="submit"
+                     @denied="confirm = false"
+        ></app-confirm>
+      </transition>
     </teleport>
   </div>
 </template>

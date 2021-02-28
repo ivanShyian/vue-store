@@ -6,8 +6,14 @@
              v-else>
     <admin-categories-table :categories="categories"></admin-categories-table>
   </AdminCard>
-  <teleport to="body" v-if="modal">
-    <app-modal categories @close-modal="modal = false"></app-modal>
+  <teleport to="body">
+    <transition name="modal-trans"
+                enter-active-class="animate__animated animate__fadeIn"
+                leave-active-class="animate__animated animate__fadeOut">
+      <app-modal categories
+                 @close-modal="modal = false"
+                 v-if="modal"></app-modal>
+    </transition>
   </teleport>
 </template>
 
@@ -18,6 +24,7 @@ import { computed, onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
 import AppLoading from '@/components/ui/AppLoading'
 import AdminCard from '@/components/admin/AdminCard'
+
 export default {
   setup() {
     const modal = ref(false)
@@ -35,7 +42,12 @@ export default {
       loading
     }
   },
-  components: { AdminCard, AppLoading, AdminCategoriesTable, AppModal }
+  components: {
+    AdminCard,
+    AppLoading,
+    AdminCategoriesTable,
+    AppModal
+  }
 }
 </script>
 

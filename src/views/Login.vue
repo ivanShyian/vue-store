@@ -39,10 +39,10 @@
       >{{ register ? 'Зарегестрироваться' : 'Войти' }}
       </button>
       <span class="text-danger" v-if="isTooManyAttempts">Слишком много попыток входа</span>
-      <div v-if="!register" class="register-sentence">
-        <hr style="margin: .5rem 0"/>
-        <span>Или</span><a href="#" @click.prevent="register = true"> зарегестрироваться</a><span> в системе</span>
-      </div>
+        <div v-if="!register" class="register-sentence">
+          <hr style="margin: .5rem 0"/>
+          <span>Или</span><a href="#" @click.prevent="toRegister"> зарегестрироваться</a><span> в системе</span>
+        </div>
     </form>
   </div>
 </template>
@@ -95,7 +95,14 @@ export default {
       await onSubmit()
       loading.value = false
     }
+
+    const toRegister = () => {
+      register.value = true
+      email.value = ''
+      password.value = ''
+    }
     return {
+      toRegister,
       submitAuth,
       register,
       loading,
@@ -132,7 +139,5 @@ div.container {
       width: 100%;
     }
   }
-}
-.register-sentence {
 }
 </style>

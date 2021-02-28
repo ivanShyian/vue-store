@@ -7,11 +7,15 @@
     <td><button class="btn danger" @click="deleteCategory(category.id)">Удалить</button></td>
   </tr>
   <teleport to="body">
-    <app-confirm title="Удалить категорию?"
-                 v-if="confirm"
-                 @confirm="submit"
-                 @denied="confirm = false"
-    ></app-confirm>
+    <transition name="confirm-trans"
+                enter-active-class="animate__animated animate__fadeIn"
+                leave-active-class="animate__animated animate__fadeOut">
+      <app-confirm title="Удалить категорию?"
+                   v-if="confirm"
+                   @confirm="submit"
+                   @denied="confirm = false"
+      ></app-confirm>
+    </transition>
   </teleport>
 </template>
 
