@@ -10,9 +10,16 @@
                       v-model="page"></app-pagination>
     </div>
   </AdminCard>
-  <teleport to="body" v-if="modal">
-    <app-modal product
-               @close-modal="modal = false"></app-modal>
+
+  <teleport to="body">
+    <transition name="modal-trans"
+                enter-active-class="animate__animated animate__fadeIn"
+                leave-active-class="animate__animated animate__fadeOut">
+      <app-modal product
+                 v-if="modal"
+                 @close-modal="modal = false">
+      </app-modal>
+    </transition>
   </teleport>
 </template>
 

@@ -1,8 +1,14 @@
 <template>
-  <app-confirm v-if="confirm"
-               title="Изменить заказ?"
-               @confirm="submit"
-               @denied="onCancel"></app-confirm>
+  <transition name="confirm-trans"
+              enter-active-class="animate__animated animate__fadeIn"
+              leave-active-class="animate__animated animate__fadeOut">
+    <teleport to="body">
+      <app-confirm v-if="confirm"
+                   title="Изменить заказ?"
+                   @confirm="submit"
+                   @denied="onCancel"></app-confirm>
+    </teleport>
+  </transition>
   <app-loading v-if="loading"></app-loading>
   <div class="card order" v-else-if="hasData">
     <div class="order__wrapper">
@@ -34,7 +40,8 @@
     <div class="order__actions">
       <button class="btn warning" @click="deleteOrder">Удалить</button>
       <button class="btn" :disabled="status === 'done'"
-              @click="confirm = true">{{ buttonTitle(status) }}</button>
+              @click="confirm = true">{{ buttonTitle(status) }}
+      </button>
     </div>
   </div>
   <div class="card text-center" v-else>
@@ -63,7 +70,11 @@ export default {
     const hasData = computed(() => !loading.value && order.value)
     const list = computed(() => Object.keys(order.value.list).map(i => order.value.list[i]))
     const status = computed(() => order.value.status ? order.value.status : null)
-    const { flag, confirm, submit } = useConfirm(true)
+    const {
+      flag,
+      confirm,
+      submit
+    } = useConfirm(true)
 
     const deleteOrder = () => {
       deleteAction.value = true
@@ -84,9 +95,15 @@ export default {
         router.replace({ name: 'AdminOrders' })
       } else {
         if (response && !status.value) {
-          store.dispatch('orders/changeOrderStatus', { status: 'performing', id: route.params.id })
+          store.dispatch('orders/changeOrderStatus', {
+            status: 'performing',
+            id: route.params.id
+          })
         } else if (response && status.value === 'performing') {
-          store.dispatch('orders/changeOrderStatus', { status: 'done', id: route.params.id })
+          store.dispatch('orders/changeOrderStatus', {
+            status: 'done',
+            id: route.params.id
+          })
         }
       } // to archive function will be provided later
     })
@@ -111,7 +128,10 @@ export default {
       list
     }
   },
-  components: { AppConfirm, AppLoading }
+  components: {
+    AppConfirm,
+    AppLoading
+  }
 }
 </script>
 
@@ -121,6 +141,7 @@ export default {
     display: flex;
     margin: 0 0 1rem 0;
   }
+
   &__left {
     display: flex;
     flex: 0 0 50%;
@@ -137,6 +158,7 @@ export default {
       margin-bottom: 1rem;
     }
   }
+
   &__right {
     display: flex;
     flex: 0 0 50%;
@@ -181,6 +203,7 @@ export default {
       text-align: center;
     }
   }
+
   &__actions {
     border-top: 2px solid rgba(0, 0, 0, .2);
     padding: 1rem 0 0 0;
