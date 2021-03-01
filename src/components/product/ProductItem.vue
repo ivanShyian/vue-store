@@ -71,4 +71,8 @@ export default {
 .product-controls {
   width: 20%;
 }
+img {
+  max-width: 350px;
+  max-height: 400px;
+}
 </style>

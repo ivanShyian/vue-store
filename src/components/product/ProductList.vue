@@ -6,6 +6,7 @@
       :product="product"
       @click="$router.push(`/product/${product.id}`)"
     ></product-card>
+    <div style="visibility: hidden">sorry :)</div>
   </div>
   <div class="empty" v-else>
     <h3>Товары в данной категории отсутствуют</h3>
@@ -31,6 +32,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.products-table {
+}
 .empty {
   margin: 0 auto;
   display: flex;
