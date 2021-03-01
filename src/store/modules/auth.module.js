@@ -112,7 +112,7 @@ export default {
     },
     async register({ dispatch }, payload) {
       try {
-        const { name, ...userData } = payload
+        const { name = 'Unnamed user', ...userData } = payload
 
         const url = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.VUE_APP_FB_KEY}`
         const { data } = await axios.post(url, { ...userData, returnSecureToken: true })
