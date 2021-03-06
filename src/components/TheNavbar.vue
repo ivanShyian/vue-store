@@ -23,6 +23,9 @@
         <router-link to="/cart">Корзина</router-link>
         <span>{{ cart }}</span>
       </li>
+      <li v-if="!isAuth">
+        <router-link to="/auth">Авторизоваться</router-link>
+      </li>
       <li v-if="isAuth">
         <a href="#" @click="logout">Выйти</a>
       </li>

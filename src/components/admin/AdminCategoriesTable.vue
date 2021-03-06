@@ -13,15 +13,13 @@
 <script>
 import AdminCategoryItem from '@/components/admin/AdminCategoryItem'
 export default {
-  components: { AdminCategoryItem },
   props: {
     categories: {
       type: Array,
       required: true
     }
   },
-  setup() {
-  }
+  components: { AdminCategoryItem }
 }
 </script>
 

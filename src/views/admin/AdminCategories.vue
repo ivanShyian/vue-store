@@ -28,11 +28,10 @@ import AdminCard from '@/components/admin/AdminCard'
 export default {
   setup() {
     const modal = ref(false)
-    const loading = ref(false)
+    const loading = ref(true)
     const store = useStore()
     const categories = computed(() => store.getters['categories/categories'])
     onMounted(async () => {
-      loading.value = true
       await store.dispatch('categories/loadCategories')
       loading.value = false
     })

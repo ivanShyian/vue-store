@@ -44,6 +44,9 @@
           <span>Или</span><a href="#" @click.prevent="toRegister"> зарегестрироваться</a><span> в системе</span>
         </div>
     </form>
+    <router-link to="/" v-slot="{ navigate }" custom>
+      <button class="btn login-form__to-shop" @click="navigate">Перейти в магазин</button>
+    </router-link>
   </div>
 </template>
 
@@ -139,5 +142,11 @@ div.container {
       width: 100%;
     }
   }
+}
+.login-form__to-shop {
+  margin-top: 2rem;
+  border-radius: .5rem;
+  padding: 1rem 5rem;
+  background: transparent;
 }
 </style>

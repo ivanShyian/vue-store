@@ -50,13 +50,13 @@
 </template>
 
 <script>
-import { computed, onMounted, ref, watch } from 'vue'
-import { useStore } from 'vuex'
-import { useRoute, useRouter } from 'vue-router'
-import { parseDate } from '@/utils/parse-date'
-import { buttonTitle, statusTitle } from '@/utils/order-status-label'
-import AppLoading from '@/components/ui/AppLoading'
 import AppConfirm from '@/components/ui/AppConfirm'
+import AppLoading from '@/components/ui/AppLoading'
+import { computed, onMounted, ref, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { useStore } from 'vuex'
+import { buttonTitle, statusTitle } from '@/utils/order-status-label'
+import { parseDate } from '@/utils/parse-date'
 import { useConfirm } from '@/use/confirm'
 
 export default {
@@ -64,7 +64,7 @@ export default {
     const store = useStore()
     const route = useRoute()
     const router = useRouter()
-    const loading = ref(false)
+    const loading = ref(true)
     const deleteAction = ref(false)
     const order = computed(() => store.getters['orders/oneOrder'](route.params.id))
     const hasData = computed(() => !loading.value && order.value)
@@ -109,7 +109,6 @@ export default {
     })
 
     onMounted(async () => {
-      loading.value = true
       await store.dispatch('orders/loadOrders')
       loading.value = false
     })

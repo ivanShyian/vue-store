@@ -20,11 +20,10 @@ export default {
   setup() {
     const store = useStore()
     const route = useRoute()
-    const loading = ref(false)
+    const loading = ref(true)
     const filter = ref({ search: '', category: '' })
 
     onMounted(async () => {
-      loading.value = true
       filter.value = { ...filter.value, ...route.query }
       await store.dispatch('products/loadProducts')
       await store.dispatch('categories/loadCategories')

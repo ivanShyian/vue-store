@@ -10,7 +10,8 @@
     <tbody>
       <cart-table-item v-for="item in bought"
                        :key="item.id"
-                       :item="item"></cart-table-item>
+                       :item="item"
+      ></cart-table-item>
     </tbody>
   </table>
 </template>
@@ -23,10 +24,6 @@ export default {
       type: Array,
       required: false,
       default: Array
-    }
-  },
-  setup() {
-    return {
     }
   },
   components: { CartTableItem }

@@ -36,7 +36,9 @@ import AdminCard from '@/components/admin/AdminCard'
 
 export default {
   setup() {
-    const loading = ref(false)
+    const ITEMS_PER_PAGE = 6
+
+    const loading = ref(true)
     const modal = ref(false)
     const page = computed(() => route.query.page)
 
@@ -45,15 +47,15 @@ export default {
 
     const products = computed(() => store.getters['products/products'])
     onMounted(async () => {
-      loading.value = true
       await store.dispatch('products/loadProducts')
+      await store.dispatch('categories/loadCategories')
       loading.value = false
     })
     return {
       loading,
       modal,
       products,
-      ...usePagination(products, page)
+      ...usePagination(products, page, ITEMS_PER_PAGE)
     }
   },
   components: {

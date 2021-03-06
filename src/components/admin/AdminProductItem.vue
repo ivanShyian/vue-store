@@ -1,12 +1,10 @@
 <template>
-  <tr class="inventory-table__item"
-      v-for="(product, idx) in products"
-      :key="product.id">
+  <tr class="inventory-table__item">
     <td>{{ idx + 1 }}</td>
     <td>{{ product.title }}</td>
     <td><img :src="product.img" alt="" height="50" width="50"></td>
     <td>{{ currency(product.price) }}</td>
-    <td>{{ CATEGORY_MAP[product.category] }}</td>
+    <td v-if="category">{{ category.title }}</td>
     <td>{{ product.count }}</td>
     <td>
       <button @click="$router.push(`product/${product.id}`)" class="btn">Открыть</button>
@@ -16,19 +14,28 @@
 
 <script>
 import { currency } from '@/utils/currency'
-import { CATEGORY_MAP } from '@/utils/constants'
+import { computed } from 'vue'
+import { useStore } from 'vuex'
 export default {
   props: {
-    products: {
-      type: Array,
-      required: false,
-      default: Array
+    product: {
+      type: Object,
+      required: true
+    },
+    idx: {
+      type: Number,
+      required: true
     }
   },
-  setup() {
+  setup(props) {
+    const store = useStore()
+
+    const category = computed(() => store.getters['categories/categories']
+      .find(el => el.type === props.product.category))
+
     return {
       currency,
-      CATEGORY_MAP
+      category
     }
   }
 }
