@@ -24,13 +24,12 @@ import ProductItem from '../components/product/ProductItem.vue'
 
 export default {
   setup() {
-    const loading = ref(false)
+    const loading = ref(true)
     const store = useStore()
     const route = useRoute()
     const product = computed(() => store.getters['products/product'](route.params.id))
 
     onMounted(async () => {
-      loading.value = true
       await store.dispatch('categories/loadCategories')
       await store.dispatch('products/loadProducts')
       loading.value = false

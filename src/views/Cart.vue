@@ -40,7 +40,7 @@ import Login from '@/views/Login'
 export default {
   setup() {
     const store = useStore()
-    const loading = ref(false)
+    const loading = ref(true)
     const amount = ref(null)
     const hasBought = ref(false)
     const hasData = computed(() => !loading.value && filtered.value.length)
@@ -49,7 +49,6 @@ export default {
     const products = computed(() => store.getters['products/products'])
 
     onMounted(async () => {
-      loading.value = true
       await store.dispatch('products/loadProducts')
       loading.value = false
     })

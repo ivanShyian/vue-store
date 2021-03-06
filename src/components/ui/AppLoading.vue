@@ -103,7 +103,7 @@ export default {}
   position: relative;
   transform: translateZ(0) scale(1);
   backface-visibility: hidden;
-  transform-origin: 0 0; /* see note above */
+  transform-origin: 0 0;
 }
 
 .ldio-xkloo60fc2 div {

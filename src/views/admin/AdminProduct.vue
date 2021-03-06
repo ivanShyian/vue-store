@@ -1,5 +1,6 @@
 <template>
-  <div class="card" v-if="product">
+  <AppLoading v-if="loading"></AppLoading>
+  <div class="card" v-if="!loading && product">
     <div class="product-info">
       <h1>{{ product.title }}</h1>
       <img :src="product.img" width="100" alt="">
@@ -54,9 +55,11 @@ import { computed, onMounted, ref, watch } from 'vue'
 import { useStore } from 'vuex'
 import { useConfirm } from '@/use/confirm'
 import AppConfirm from '@/components/ui/AppConfirm'
+import AppLoading from '../../components/ui/AppLoading'
 
 export default {
   setup() {
+    const loading = ref(true)
     const router = useRouter()
     const route = useRoute()
     const store = useStore()
@@ -74,6 +77,7 @@ export default {
       await store.dispatch('products/loadProducts')
       await store.dispatch('categories/loadCategories')
       product.value = { ...initial.value }
+      loading.value = false
     })
     const hasChanges = computed(() =>
       initial.value ? initial.value.title !== product.value.title ||
@@ -107,6 +111,7 @@ export default {
       confirm,
       submit,
       change,
+      loading,
       product,
       categories,
       hasChanges,
@@ -114,7 +119,7 @@ export default {
       titleMessage
     }
   },
-  components: { AppConfirm }
+  components: { AppLoading, AppConfirm }
 }
 </script>
 

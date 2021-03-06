@@ -25,7 +25,7 @@ import { useRoute, useRouter } from 'vue-router'
 export default {
   setup() {
     const store = useStore()
-    const loading = ref(false)
+    const loading = ref(true)
     const router = useRouter()
     const route = useRoute()
     const orders = computed(() => store.getters['orders/orders'](query.value))
@@ -40,7 +40,6 @@ export default {
     })
 
     onMounted(async () => {
-      loading.value = true
       await store.dispatch('orders/loadOrders')
       query.value = route.query.order ? route.query.order : ''
       loading.value = false

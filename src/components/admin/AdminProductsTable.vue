@@ -9,7 +9,10 @@
       <th>Количество</th>
       <th>Действие</th>
     </tr>
-    <AdminProductItem :products="products"
+    <AdminProductItem v-for="(product, i) in products"
+                      :key="product.id"
+                      :product="product"
+                      :idx="i"
     ></AdminProductItem>
   </table>
 </template>
@@ -17,13 +20,13 @@
 <script>
 import AdminProductItem from '@/components/admin/AdminProductItem'
 export default {
-  components: { AdminProductItem },
   props: {
     products: {
       type: Array,
       required: false
     }
-  }
+  },
+  components: { AdminProductItem }
 }
 </script>
 
