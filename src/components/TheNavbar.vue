@@ -2,31 +2,26 @@
   <div class="navbar">
     <h4>{{ logo }}</h4>
     <ul class="navbar-menu" v-if="admin">
-      <li>
-        <router-link to="/admin/products">Инвентарь</router-link>
-      </li>
-      <li>
-        <router-link to="/admin/categories">Категории</router-link>
-      </li>
-      <li>
-        <router-link to="/admin/orders">Заказы</router-link>
+      <li v-for="link in adminNav"
+          :key="link.name"
+      >
+        <router-link :to="link.src">{{ link.label }}</router-link>
       </li>
       <li v-if="isAuth">
         <a href="#" @click="logout">Выйти</a>
       </li>
     </ul>
-    <ul class="navbar-menu" v-if="!admin">
-      <li>
-        <router-link to="/">Магазин</router-link>
-      </li>
-      <li class="cart-link">
-        <router-link to="/cart">Корзина</router-link>
-        <span>{{ cart }}</span>
+    <ul class="navbar-menu" v-else>
+      <li v-for="link in userNav"
+          :key="link.name"
+      >
+        <router-link :to="link.src">{{ link.label }}</router-link>
+        <span v-if="link.name === 'cart'">{{ cart }}</span>
       </li>
       <li v-if="!isAuth">
         <router-link to="/auth">Авторизоваться</router-link>
       </li>
-      <li v-if="isAuth">
+      <li v-else>
         <a href="#" @click="logout">Выйти</a>
       </li>
     </ul>
@@ -47,6 +42,15 @@ export default {
     }
   },
   setup(props) {
+    const adminNav = [
+      { name: 'inventory', label: 'Инвентарь', src: '/admin/products' },
+      { name: 'categories', label: 'Категории', src: '/admin/categories' },
+      { name: 'orders', label: 'Заказы', src: '/admin/orders' }
+    ]
+    const userNav = [
+      { name: 'shop', label: 'Магазин', src: '/' },
+      { name: 'cart', label: 'Корзина', src: '/cart' }
+    ]
     const store = useStore()
     const router = useRouter()
     const isAuth = computed(() => store.getters['auth/isAuthenticated'])
@@ -71,6 +75,8 @@ export default {
       router.push('/auth')
     }
     return {
+      adminNav,
+      userNav,
       cart,
       logout,
       isAuth,
@@ -81,15 +87,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.navbar-menu:last-child {
-  .cart-link {
-    span {
-      font-size: .8rem;
-      background-color: rgba(255, 0, 0, .7);
-      border-radius: 2rem;
-      color: white;
-      padding: 0 .7rem;
-    }
+  span {
+    font-size: .8rem;
+    background-color: rgba(255, 0, 0, .7);
+    border-radius: 2rem;
+    color: white;
+    padding: 0 .7rem;
   }
-}
 </style>
